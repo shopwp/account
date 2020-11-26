@@ -13,15 +13,40 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.logo-link {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+}
+
+.logo-link svg {
+  width: 50px;
+  height: 50px;
+}
+
+nav .link {
+  margin: 0;
+  border: none;
+  text-decoration: none;
+  font-size: 1em;
+  color: #0f0311;
+  padding: 1.2em 1.1em;
+}
+
+.header {
+  display: flex;
+  max-width: 95vw;
+  width: 100%;
+  margin: 0 auto;
+  height: 70px;
+  border-bottom: 1px solid #ddd;
+}
+
+.header nav {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .App-link {
@@ -35,4 +60,31 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.btn {
+  font-family: 'Manrope', sans-serif;
+  padding: 0.6em 1.5em 0.7em;
+  color: #fff;
+  background-color: #415aff;
+  border: none;
+  position: relative;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 17px;
+  display: inline-block;
+  line-height: 1.1;
+  border-radius: 0.4em;
+  outline: none;
+  z-index: 2;
+  text-align: center;
+  margin: 0.69444em 0 0;
+  -webkit-transition: all 0.18s ease;
+  -o-transition: all 0.18s ease;
+  transition: all 0.18s ease;
+  opacity: 1;
+}
+
+.header .btn {
+  margin-top: 0;
 }
