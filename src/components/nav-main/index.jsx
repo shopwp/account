@@ -5,24 +5,31 @@ function MainNav() {
     display: flex;
     flex-direction: column;
     width: 100%;
+    padding-top: 20px;
 
     a {
-      color: white;
-      padding: 13px;
+      color: #0f0728;
+      padding: 8px 20px;
       text-decoration: none;
-      font-size: 18px;
+      font-size: 16px;
+      font-weight: bold;
+      border-bottom: 1px solid #d6dae8;
+
+      &:hover {
+        background: #fff;
+      }
     }
   `;
 
   return (
     <div css={MainNavCSS}>
-      <a href='https://wpshop.io/'>Overview</a>
-      <a href='https://wpshop.io/'>Licenses</a>
-      <a href='https://wpshop.io/'>Subscriptions</a>
-      <a href='https://wpshop.io/'>Downloads</a>
-      <a href='https://wpshop.io/try'>Purchase History</a>
-      <a href='https://wpshop.io/'>Settings</a>
-      <a href='https://wpshop.io/'>Affiliate</a>
+      <a href='#!'>Overview</a>
+      <a href='#!'>Licenses</a>
+      <a href='#!'>Subscriptions</a>
+      <a href='#!'>Downloads</a>
+      <a href='#!'>Purchase History</a>
+      <a href='#!'>Settings</a>
+      <a href='#!'>Affiliate</a>
     </div>
   );
 }

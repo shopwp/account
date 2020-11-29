@@ -5,15 +5,15 @@ import MainNav from '../nav-main';
 function Nav() {
   const NavCSS = css`
     display: flex;
-    width: 270px;
+    width: 240px;
     height: 100vh;
     align-items: flex-start;
-    background: #1d144f;
+    background: #f3f5fe;
     flex-direction: column;
   `;
   return (
     <nav css={NavCSS}>
-      <Logo />
+      <Logo color='#415aff' width='40px' height='40px' />
       <MainNav />
     </nav>
   );
