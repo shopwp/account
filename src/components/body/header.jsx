@@ -6,13 +6,14 @@ import 'tippy.js/dist/tippy.css'; // optional
 function AccountIcon() {
   const AccountIconCSS = css`
     position: absolute;
-    left: -38px;
-    top: 16px;
+    left: -45px;
+    padding: 1px;
+    top: 14px;
+    border: 1px solid #cdcdcd;
+    border-radius: 4px;
   `;
 
-  return (
-    <svg width='30' height='30' data-jdenticon-value='Andrew Robbins' css={AccountIconCSS}></svg>
-  );
+  return <svg width='30' height='30' data-jdenticon-value='wps' css={AccountIconCSS}></svg>;
 }
 
 function AccountHeaderDropdown() {
@@ -23,7 +24,15 @@ function AccountHeaderDropdown() {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    min-width: 100px;
+    min-width: 182px;
+
+    li:first-of-type a {
+      padding-bottom: 7px;
+    }
+
+    li:last-of-type a {
+      padding-top: 7px;
+    }
   `;
 
   const AccountHeaderDropdownLinkCSS = css`
@@ -31,8 +40,14 @@ function AccountHeaderDropdown() {
     color: #0f0728;
     text-align: left;
     display: block;
-    width: 100%;
-    padding: 10px 10px;
+    width: calc(100% - 40px);
+    padding: 15px 20px;
+
+    svg {
+      position: relative;
+      top: 3px;
+      margin-right: 5px;
+    }
 
     &:hover {
       color: #415aff;
@@ -43,15 +58,35 @@ function AccountHeaderDropdown() {
     console.log('on logout click');
   }
 
+  function onLogout() {
+    localStorage.removeItem('wpshopify-account-auth-token');
+    window.location.href = '/login';
+  }
+
   return (
     <ul css={AccountHeaderDropdownCSS}>
       <li>
-        <a href='#!' onClick={onClick} css={AccountHeaderDropdownLinkCSS}>
+        <a href='/settings' onClick={onClick} css={AccountHeaderDropdownLinkCSS}>
           Settings
         </a>
       </li>
       <li>
-        <a href='#!' onClick={onClick} css={AccountHeaderDropdownLinkCSS}>
+        <a href='/billing' onClick={onClick} css={AccountHeaderDropdownLinkCSS}>
+          Billing
+        </a>
+      </li>
+      <li>
+        <a href='#!' onClick={onLogout} css={AccountHeaderDropdownLinkCSS}>
+          <svg
+            focusable='false'
+            role='img'
+            xmlns='http://www.w3.org/2000/svg'
+            viewBox='0 0 512 512'
+            width='15'>
+            <path
+              fill='currentColor'
+              d='M160 217.1c0-8.8 7.2-16 16-16h144v-93.9c0-7.1 8.6-10.7 13.6-5.7l141.6 143.1c6.3 6.3 6.3 16.4 0 22.7L333.6 410.4c-5 5-13.6 1.5-13.6-5.7v-93.9H176c-8.8 0-16-7.2-16-16v-77.7m-32 0v77.7c0 26.5 21.5 48 48 48h112v61.9c0 35.5 43 53.5 68.2 28.3l141.7-143c18.8-18.8 18.8-49.2 0-68L356.2 78.9c-25.1-25.1-68.2-7.3-68.2 28.3v61.9H176c-26.5 0-48 21.6-48 48zM0 112v288c0 26.5 21.5 48 48 48h132c6.6 0 12-5.4 12-12v-8c0-6.6-5.4-12-12-12H48c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16h132c6.6 0 12-5.4 12-12v-8c0-6.6-5.4-12-12-12H48C21.5 64 0 85.5 0 112z'></path>
+          </svg>
           Logout
         </a>
       </li>
@@ -76,6 +111,10 @@ function AccountHeader() {
       box-shadow: none;
       border: 1px solid #ddd;
     }
+
+    .tippy-content {
+      padding: 0;
+    }
   `;
 
   const AccountHeaderLinkCSS = css`
@@ -96,7 +135,7 @@ function AccountHeader() {
         allowHTML={true}
         interactive={true}
         theme='light'
-        offset={[0, -5]}
+        offset={[-18, -5]}
         hideOnClick='toggle'
         arrow={false}>
         <a href='#!' css={AccountHeaderLinkCSS} onClick={onClick}>

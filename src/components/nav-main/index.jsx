@@ -12,7 +12,6 @@ function MainNav() {
       padding: 8px 20px;
       text-decoration: none;
       font-size: 16px;
-      font-weight: bold;
       border-bottom: 1px solid #d6dae8;
 
       &:hover {
@@ -25,9 +24,9 @@ function MainNav() {
     <div css={MainNavCSS}>
       <a href='#!'>Overview</a>
       <a href='#!'>Licenses</a>
-      <a href='#!'>Subscriptions</a>
-      <a href='#!'>Downloads</a>
+      <a href='#!'>Billing</a>
       <a href='#!'>Purchase History</a>
+      <a href='#!'>Downloads</a>
       <a href='#!'>Settings</a>
       <a href='#!'>Affiliate</a>
     </div>

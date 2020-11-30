@@ -31,8 +31,8 @@ function Button({ text, onClick, disabled }) {
     }
 
     .ball-pulse > div {
-      width: 10px;
-      height: 10px;
+      width: 7px;
+      height: 7px;
     }
 
     &:hover {

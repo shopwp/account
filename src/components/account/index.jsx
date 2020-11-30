@@ -1,4 +1,3 @@
-import AppWrapper from '../app';
 import Nav from '../nav';
 import Body from '../body';
 import { jsx, css } from '@emotion/react/macro';
@@ -11,10 +10,8 @@ function Account() {
 
   return (
     <div className='App' css={AppCSS}>
-      <AppWrapper>
-        <Nav />
-        <Body />
-      </AppWrapper>
+      <Nav />
+      <Body />
     </div>
   );
 }

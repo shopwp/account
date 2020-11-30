@@ -27,6 +27,7 @@ function LoginForm() {
 
     if (payload.success) {
       localStorage.setItem('wpshopify-account-auth-token', payload.data.token);
+      window.location.href = '/';
     } else {
       setMessage(payload.message);
     }
@@ -37,13 +38,19 @@ function LoginForm() {
   }
 
   function onClick() {
-    console.log('username :: ', username);
-    console.log('password :: ', password);
-
     loginCustomer({
       username: username,
       password: password,
     });
+  }
+
+  function onKeyDown(event) {
+    if (event.key === 'Enter') {
+      loginCustomer({
+        username: username,
+        password: password,
+      });
+    }
   }
 
   function onPasswordChange(e) {
@@ -60,16 +67,16 @@ function LoginForm() {
     justify-content: flex-start;
     align-items: flex-start;
     width: 500px;
-    margin-top: -125px;
+    margin: 60px 0 0 0;
     position: relative;
+    flex: 1;
   `;
 
   const InputCSS = css`
-    padding: 10px;
     margin-bottom: 10px;
-    width: 100%;
     border-radius: 0.4em;
     padding: 12px 18px;
+    width: calc(100% - 38px);
     font-size: 16px;
     background: #fff;
     color: #1f1f23;
@@ -107,11 +114,9 @@ function LoginForm() {
     border-radius: 4px;
     visibility: ${message ? 'visible' : 'hidden'};
     transform: ${message ? 'translateY(0px)' : 'translateY(20px)'};
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease;
     opacity: ${message ? 1 : 0};
-    position: absolute;
-    bottom: -70px;
-    line-height: 1;
+    line-height: 1.5;
   `;
 
   return (
@@ -133,6 +138,7 @@ function LoginForm() {
         onChange={onPasswordChange}
         disabled={disabled}
         css={InputCSS}
+        onKeyDown={onKeyDown}
       />
 
       <Button text='Submit' onClick={onClick} disabled={disabled} />
