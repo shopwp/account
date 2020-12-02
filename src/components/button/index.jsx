@@ -23,13 +23,6 @@ function Button({ text, onClick, disabled }) {
     opacity: 1;
     min-width: 106px;
 
-    .loader-hidden {
-      display: none;
-    }
-    .loader-active {
-      display: block;
-    }
-
     .ball-pulse > div {
       width: 7px;
       height: 7px;
@@ -51,12 +44,35 @@ function Button({ text, onClick, disabled }) {
         background-color: #415aff;
       }
     }
+
+    &[disabled] {
+      background-color: #bdbdbd;
+
+      &:hover {
+        background-color: #bdbdbd;
+      }
+    }
   `;
 
   return (
     <button css={ButtonCSS} disabled={disabled} onClick={onClick}>
-      {disabled ? <Loader type='ball-pulse' /> : text}
+      <LoaderWrapper disabled={disabled} /> {!disabled && text}
     </button>
+  );
+}
+
+function LoaderWrapper({ disabled }) {
+  const LoaderWrapperCSS = css`
+    transition: opacity 0.3s ease-in, transform 0.25s ease-in;
+    visibility: ${disabled ? 'visible' : 'hidden'};
+    opacity: ${disabled ? 1 : 0};
+    transform: ${disabled ? 'translateY(0px)' : 'translateY(10px)'};
+    position: ${disabled ? 'static' : 'absolute'};
+  `;
+  return (
+    <div css={LoaderWrapperCSS}>
+      <Loader type='ball-pulse' />
+    </div>
   );
 }
 

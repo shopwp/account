@@ -3,8 +3,7 @@ import Logo from '../logo';
 
 function LoginFooter() {
   const LoginFooterCSS = css`
-    height: 70px;
-    margin: auto 0 0 0;
+    margin: 0;
     width: calc(100% - 80px);
     padding: 10px 40px;
   `;
@@ -20,8 +19,6 @@ function LoginFooter() {
     display: flex;
     border-top: 1px solid #ddd;
     padding-top: 20px;
-    position: relative;
-    top: -70px;
   `;
 
   const LoginFooterCol = css`
@@ -68,8 +65,6 @@ function LoginFooter() {
     justify-content: center;
     align-items: center;
     padding-bottom: 20px;
-    position: relative;
-    top: -70px;
   `;
 
   return (

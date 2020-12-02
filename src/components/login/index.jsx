@@ -1,9 +1,8 @@
-import LoginForm from './form';
 import LoginHeader from './header';
 import LoginFooter from './footer';
 import { jsx, css } from '@emotion/react/macro';
 
-function Login() {
+function Login({ children }) {
   const LoginCSS = css`
     display: flex;
     justify-content: center;
@@ -15,7 +14,7 @@ function Login() {
   return (
     <div css={LoginCSS}>
       <LoginHeader />
-      <LoginForm />
+      {children}
       <LoginFooter />
     </div>
   );

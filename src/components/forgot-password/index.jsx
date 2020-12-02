@@ -1,20 +1,26 @@
 import { useState } from 'react';
 import { css } from '@emotion/react/macro';
 import Button from '../button';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
 
-function LoginForm() {
-  const [username, setUsername] = useState(false);
-  const [password, setPassword] = useState(false);
+function ForgotPassword() {
+  const [email, setEmail] = useState('');
   const [disabled, setDisabled] = useState(false);
   const [message, setMessage] = useState(false);
+  const [messageType, setMessageType] = useState(false);
 
-  async function loginCustomer(creds) {
-    setDisabled(true);
+  async function resetPassword(email) {
     setMessage(false);
 
-    const response = await fetch('https://wpshopify-web.loc/wp-json/jwt-auth/v1/token', {
-      body: JSON.stringify(creds),
+    if (!email) {
+      setMessage('Please enter a valid email');
+      setMessageType('error');
+      return;
+    }
+
+    setDisabled(true);
+
+    const response = await fetch('https://wpshopify-web.loc/wp-json/customers/v1/reset-password', {
+      body: JSON.stringify({ email: email }),
       method: 'post',
       headers: {
         Accept: 'application/json',
@@ -25,50 +31,41 @@ function LoginForm() {
     const payload = await response.json();
 
     setDisabled(false);
+    setMessage(payload.message);
+
+    console.log('payload', payload);
 
     if (payload.success) {
-      localStorage.setItem('wpshopify-account-auth-token', payload.data.token);
-      window.location.href = '/';
+      setEmail('');
+      setMessageType('success');
     } else {
-      setMessage(payload.message);
+      setMessageType('error');
     }
-
-    console.log('result', payload);
 
     // appDispatch({ type: 'SET_CUSTOMER', payload: resultok.customers[0] });
   }
 
   function onClick() {
-    loginCustomer({
-      username: username,
-      password: password,
-    });
+    resetPassword(email);
   }
 
-  function onKeyDown(event) {
-    if (event.key === 'Enter') {
-      loginCustomer({
-        username: username,
-        password: password,
-      });
+  function onEmailChange(e) {
+    setEmail(e.target.value);
+  }
+
+  function onKeyDown(e) {
+    if (e.key === 'Enter') {
+      resetPassword(email);
     }
   }
 
-  function onPasswordChange(e) {
-    setPassword(e.target.value);
-  }
-
-  function onUsernameChange(e) {
-    setUsername(e.target.value);
-  }
-
-  const LoginFormWrapperCSS = css`
+  const ForgotPasswordCSS = css`
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: flex-start;
     width: 500px;
     margin: 0;
+    justify-content: center;
     position: relative;
     flex: 1;
   `;
@@ -106,10 +103,17 @@ function LoginForm() {
     width: 100%;
     text-align: center;
     margin-top: 0;
+
+    + p {
+      margin-top: -15px;
+      text-align: center;
+      width: 100%;
+      margin-bottom: 20px;
+    }
   `;
 
   const messageCSS = css`
-    background: #f6cdcd;
+    background: ${messageType === 'error' ? '#f6cdcd;' : '#c1ffdd'};
     padding: 10px 20px;
     font-size: 15px;
     border-radius: 4px;
@@ -118,15 +122,8 @@ function LoginForm() {
     transition: transform 0.2s ease;
     opacity: ${message ? 1 : 0};
     line-height: 1.5;
-  `;
-
-  const forgotPasswordLinkCSS = css`
-    margin-left: 15px;
-    display: inline-block;
-    color: #323232;
-    flex: 1;
-    text-align: right;
-    margin-top: 10px;
+    width: calc(100% - 40px);
+    text-align: center;
   `;
 
   const controlsCSS = css`
@@ -136,32 +133,22 @@ function LoginForm() {
   `;
 
   return (
-    <div css={LoginFormWrapperCSS}>
-      <h1 css={HeadingCSS}>Customer Login</h1>
+    <div css={ForgotPasswordCSS}>
+      <h1 css={HeadingCSS}>Reset Password</h1>
+      <p>You will be emailed a secure password reset link.</p>
       <label css={LabelCSS}>Email</label>
       <input
         type='email'
         placeholder='Email'
-        onChange={onUsernameChange}
+        onChange={onEmailChange}
         disabled={disabled}
         css={InputCSS}
-      />
-
-      <label css={LabelCSS}>Password</label>
-      <input
-        type='password'
-        placeholder='Password'
-        onChange={onPasswordChange}
-        disabled={disabled}
-        css={InputCSS}
+        value={email}
         onKeyDown={onKeyDown}
       />
 
       <div css={controlsCSS}>
-        <Button text='Submit' onClick={onClick} disabled={disabled} />
-        <Link to='/forgot-password' css={forgotPasswordLinkCSS}>
-          Forgot password?
-        </Link>
+        <Button text='Send reset password link' onClick={onClick} disabled={disabled} />
       </div>
 
       <p css={messageCSS}>{message && message}</p>
@@ -169,4 +156,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default ForgotPassword;

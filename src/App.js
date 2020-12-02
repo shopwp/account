@@ -3,6 +3,8 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Account from './components/account';
 import Login from './components/login';
+import LoginForm from './components/login/form';
+import ForgotPassword from './components/forgot-password';
 import { useEffect, useState } from 'react';
 
 function App() {
@@ -17,14 +19,21 @@ function App() {
     if (!isAuthed) {
       window.location.href = '/login';
     }
-  }, []);
+  }, [isAuthed]);
 
   return (
     <Router>
       <AppProvider>
         <Switch>
           <Route path='/login'>
-            <Login />
+            <Login>
+              <LoginForm />
+            </Login>
+          </Route>
+          <Route path='/forgot-password'>
+            <Login>
+              <ForgotPassword />
+            </Login>
           </Route>
           <Route path='/'>{isAuthed && <Account />}</Route>
         </Switch>
