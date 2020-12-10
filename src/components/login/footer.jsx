@@ -1,5 +1,5 @@
 import { jsx, css } from '@emotion/react/macro';
-import Logo from '../logo';
+import Logo from '../_common/logo';
 
 function LoginFooter() {
   const LoginFooterCSS = css`

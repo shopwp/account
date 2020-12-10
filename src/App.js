@@ -1,4 +1,4 @@
-import { AppProvider } from './components/app/_state/provider';
+import { AccountProvider } from './components/account/_state/provider';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Account from './components/account';
@@ -23,7 +23,7 @@ function App() {
 
   return (
     <Router>
-      <AppProvider>
+      <AccountProvider>
         <Switch>
           <Route path='/login'>
             <Login>
@@ -37,7 +37,7 @@ function App() {
           </Route>
           <Route path='/'>{isAuthed && <Account />}</Route>
         </Switch>
-      </AppProvider>
+      </AccountProvider>
     </Router>
   );
 }

@@ -1,5 +1,5 @@
 import { jsx, css } from '@emotion/react/macro';
-import { ButtonCSS } from '../_common/styles';
+import { ButtonCSS } from '../styles';
 
 function ButtonLink({ text, href }) {
   return (

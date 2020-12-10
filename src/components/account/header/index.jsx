@@ -1,19 +1,27 @@
-import { jsx, css } from '@emotion/react/macro';
+import { css } from '@emotion/react/macro';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/themes/light.css';
 import 'tippy.js/dist/tippy.css'; // optional
+import { useContext } from 'react';
+import { AccountContext } from '../_state/context';
 
-function AccountIcon() {
+function AccountIcon({ avatar }) {
   const AccountIconCSS = css`
     position: absolute;
     left: -45px;
     padding: 1px;
     top: 14px;
     border: 1px solid #cdcdcd;
-    border-radius: 4px;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
   `;
 
-  return <svg width='30' height='30' data-jdenticon-value='wps' css={AccountIconCSS}></svg>;
+  return avatar ? (
+    <img src={avatar} css={AccountIconCSS} />
+  ) : (
+    <svg width='30' height='30' data-jdenticon-value='wps' css={AccountIconCSS}></svg>
+  );
 }
 
 function AccountHeaderDropdown() {
@@ -95,6 +103,8 @@ function AccountHeaderDropdown() {
 }
 
 function AccountHeader() {
+  const [accountState] = useContext(AccountContext);
+
   const ArrowCSS = css`
     width: 9px;
     height: auto;
@@ -105,7 +115,11 @@ function AccountHeader() {
 
   const AccountHeaderCSS = css`
     margin: 0;
+    padding: 23px 30px;
+    background: white;
+    width: calc(100% - 60px);
     text-align: right;
+    border-bottom: 1px solid #e3e8ee;
 
     .tippy-box[data-theme~='light'] {
       box-shadow: none;
@@ -122,6 +136,8 @@ function AccountHeader() {
     color: #0f0728;
     padding: 20px 0;
     position: relative;
+    font-weight: bold;
+    font-size: 15px;
   `;
 
   function onClick() {
@@ -139,7 +155,7 @@ function AccountHeader() {
         hideOnClick='toggle'
         arrow={false}>
         <a href='#!' css={AccountHeaderLinkCSS} onClick={onClick}>
-          <AccountIcon />
+          <AccountIcon avatar={accountState.customer ? accountState.customer.info.avatar : false} />
           Andrew Robbins{' '}
           <svg
             css={ArrowCSS}

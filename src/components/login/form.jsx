@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { css } from '@emotion/react/macro';
-import Button from '../button';
+import Button from '../_common/button';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 function LoginForm() {
@@ -24,10 +24,15 @@ function LoginForm() {
 
     const payload = await response.json();
 
+    const customerInfo = {
+      id: payload.data.id,
+      token: payload.data.token,
+    };
+
     setDisabled(false);
 
     if (payload.success) {
-      localStorage.setItem('wpshopify-account-auth-token', payload.data.token);
+      localStorage.setItem('wpshopify-account-auth-token', JSON.stringify(customerInfo));
       window.location.href = '/';
     } else {
       setMessage(payload.message);
@@ -96,7 +101,7 @@ function LoginForm() {
   `;
 
   const LabelCSS = css`
-    font-weight: bold;
+    font-weight: 600;
     margin-bottom: 0.69444em;
     margin-top: 15px;
   `;

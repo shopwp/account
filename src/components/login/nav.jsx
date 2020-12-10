@@ -1,6 +1,6 @@
-import { jsx, css } from '@emotion/react/macro';
-import Logo from '../logo';
-import ButtonLink from '../button-link';
+import { css } from '@emotion/react/macro';
+import Logo from '../_common/logo';
+import ButtonLink from '../_common/button-link';
 
 function LoginNav() {
   const LoginNavCSS = css`

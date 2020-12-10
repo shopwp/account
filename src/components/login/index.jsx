@@ -1,6 +1,6 @@
 import LoginHeader from './header';
 import LoginFooter from './footer';
-import { jsx, css } from '@emotion/react/macro';
+import { css } from '@emotion/react/macro';
 
 function Login({ children }) {
   const LoginCSS = css`

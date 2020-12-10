@@ -1,22 +1,24 @@
-import { jsx, css } from '@emotion/react/macro';
-import Logo from '../logo';
-import MainNav from '../nav-main';
+import { css } from '@emotion/react/macro';
+import Logo from '../../_common/logo';
+import Nav from './nav';
 
-function Nav() {
+function Sidebar() {
   const NavCSS = css`
     display: flex;
     width: 240px;
     height: 100vh;
     align-items: flex-start;
-    background: #f3f5fe;
+    background: white;
     flex-direction: column;
+    border-right: 1px solid #e3e8ee;
   `;
+
   return (
     <nav css={NavCSS}>
       <Logo color='#415aff' width='40px' height='40px' />
-      <MainNav />
+      <Nav />
     </nav>
   );
 }
 
-export default Nav;
+export default Sidebar;

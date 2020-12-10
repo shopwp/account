@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { css } from '@emotion/react/macro';
-import Button from '../button';
+import Button from '../_common/button';
 
 function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -93,7 +93,7 @@ function ForgotPassword() {
   `;
 
   const LabelCSS = css`
-    font-weight: bold;
+    font-weight: 600;
     margin-bottom: 0.69444em;
     margin-top: 15px;
   `;

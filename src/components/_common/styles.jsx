@@ -29,4 +29,8 @@ const ButtonCSS = css`
   }
 `;
 
-export { ButtonCSS };
+const SectionCSS = css`
+  padding: 0;
+`;
+
+export { ButtonCSS, SectionCSS };
