@@ -4,22 +4,22 @@ import { useContext, useState } from 'react';
 import { AccountContext } from '../_state/context';
 import { css } from '@emotion/react/macro';
 import { IconCopy, IconRemove } from '../../_common/icons';
-import { SectionCSS } from '../../_common/styles';
+import { SectionCSS, StatusCSS } from '../../_common/styles';
 import Table from '../../_common/tables';
 import TableBody from '../../_common/tables/body';
 import Td from '../../_common/tables/body/td';
 import Label from '../../_common/label';
 import Notice from '../../_common/notice';
 import prettyDate from '../../_common/date';
-import copy from 'copy-to-clipboard';
+import copy from 'clipboard-copy';
+import to from 'await-to-js';
 
 function AccountLicenses() {
   const [accountState] = useContext(AccountContext);
-  console.log('accountState.customer', accountState.customer);
 
   return (
     <div>
-      <AccountBodyHeader heading={'Licenses (' + accountState.customer.licenses.length + ')'} />
+      <AccountBodyHeader heading='Licenses' />
 
       {accountState.customer && (
         <AccountBodyContent>
@@ -39,7 +39,7 @@ function Licenses({ licenses }) {
 function License({ license }) {
   const [isCopyingLicense, setIsCopyingLicense] = useState(false);
   const [copyingLicenseMessage, setCopyingLicenseMessage] = useState('Copy');
-  const [key, setKey] = useState(license.key);
+  const [key] = useState(license.key);
 
   const LicenseKeyCSS = css`
     background-color: #eff7ff;
@@ -72,7 +72,7 @@ function License({ license }) {
   `;
 
   const LicenseCSS = css`
-    margin-bottom: 3em;
+    margin-bottom: 1em;
     padding-bottom: 40px;
   `;
 
@@ -117,17 +117,24 @@ function License({ license }) {
     //  document.selection.empty();
   }
 
-  function onLicenseClick(e) {
-    copy(e.target.value, {
-      onCopy: function () {
-        setCopyingLicenseMessage('Copied!');
-        e.target.select();
+  async function copyLicense(target) {
+    console.log('target', target);
 
-        setTimeout(function () {
-          setIsCopyingLicense(false);
-        }, 2000);
-      },
-    });
+    const [err, result] = await to(copy(target.value));
+    console.log('result', result);
+    console.log('err', err);
+
+    console.log('target.value', target.value);
+    setCopyingLicenseMessage('Copied!');
+    target.select();
+
+    setTimeout(function () {
+      setIsCopyingLicense(false);
+    }, 2000);
+  }
+
+  function onLicenseClick(e) {
+    copyLicense(e.target);
   }
 
   return (
@@ -167,20 +174,6 @@ function License({ license }) {
 }
 
 function LicenseDetails({ license }) {
-  console.log('LicenseDetails', license);
-
-  const StatusCSS = css`
-    color: ${license.status === 'active'
-      ? '#21bc67'
-      : license.status === 'inactive'
-      ? '#8d8d8d'
-      : license.status === 'disabled'
-      ? '#8d8d8d'
-      : '#f24e4e'};
-    font-weight: 600;
-    font-style: ${license.status === 'disabled' ? 'italic' : 'none'};
-  `;
-
   return (
     <Table>
       <TableBody>
@@ -206,7 +199,7 @@ function LicenseDetails({ license }) {
         </tr>
         <tr>
           <Td>Status:</Td>
-          <Td extraCSS={StatusCSS}>
+          <Td extraCSS={StatusCSS(license.status)}>
             {license.status === 'expired' ? (
               <LicenseStatusExpired license={license} />
             ) : (
@@ -237,6 +230,7 @@ function LicenseStatusExpired({ license }) {
           license.download_id
         }
         target='_blank'
+        rel='noreferrer'
         css={LicenseStatusExpiredCSS}>
         Renew?
       </a>
@@ -285,6 +279,8 @@ function LicenseSite({ site }) {
     padding: 10px 0px;
     position: relative;
     top: -8px;
+    flex: 1;
+    max-width: 300px;
 
     &:hover {
       cursor: pointer;
@@ -343,7 +339,7 @@ function LicenseSites({ sites }) {
       ))}
     </ul>
   ) : (
-    <Notice text='No sites activated yet' type='info' />
+    <Notice type='info'>No sites activated yet</Notice>
   );
 }
 

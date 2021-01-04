@@ -2,8 +2,8 @@ import { css } from '@emotion/react/macro';
 
 function Th({ children, extraCSS, align, colspan }) {
   const styles = css`
-    textalign: ${align ? align : 'left'};
-    padding: 15px;
+    text-align: ${align ? align : 'left'};
+    padding: 8px 16px;
     border: 1px solid #e7e7e7;
   `;
 

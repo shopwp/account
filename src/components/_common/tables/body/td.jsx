@@ -6,7 +6,10 @@ function Td({ children, extraCSS, colspan, align }) {
     padding: 8px 15px;
     border: 1px solid #e3e8ee;
     font-size: 15px;
-    text-transform: capitalize;
+
+    p {
+      margin: 0;
+    }
   `;
 
   return (

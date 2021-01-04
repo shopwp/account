@@ -48,8 +48,32 @@ nav .link {
   z-index: 2;
   text-align: center;
   margin: 0.69444em 0 0;
-  -webkit-transition: all 0.18s ease;
-  -o-transition: all 0.18s ease;
   transition: all 0.18s ease;
   opacity: 1;
+}
+
+.ReactModal__Content {
+  opacity: 0;
+  transform: translateY(-50px);
+  transition: all 0.25s ease;
+}
+
+.ReactModal__Content--before-close,
+.ReactModal__Content--after-open.ReactModal__Content--before-close {
+  opacity: 0;
+  transform: translateY(-50px);
+}
+
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+  opacity: 1;
+  transition: all 0.25s ease;
+}
+
+.ReactModal__Overlay--after-open.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+.ReactModal__Content--after-open {
+  opacity: 1;
+  transform: translateY(0px);
 }

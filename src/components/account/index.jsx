@@ -1,7 +1,9 @@
 import Sidebar from './sidebar';
 import Body from './body';
+import AccountModal from './modal';
+import Notice from '../_common/notice';
 import { css } from '@emotion/react/macro';
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { AccountContext } from './_state/context';
 
 function Account() {
@@ -12,6 +14,7 @@ function Account() {
     font-family: 'Manrope', sans-serif;
     background: #f6f9fc;
   `;
+
   useEffect(() => {
     const newUrl = 'https://wpshopify-web.loc/wp-json/customers/v1/get';
     const customerAuth = JSON.parse(localStorage.getItem('wpshopify-account-auth-token'));
@@ -29,6 +32,11 @@ function Account() {
 
       const customer = await result.json();
 
+      if (customer.success === false) {
+        console.log('no success', customer);
+        accountDispatch({ type: 'SET_IS_AUTHED', payload: false });
+      }
+
       accountDispatch({ type: 'SET_CUSTOMER', payload: customer });
     }
 
@@ -39,6 +47,14 @@ function Account() {
     <div className='App' css={AppCSS}>
       <Sidebar />
       <Body />
+
+      <AccountModal />
+
+      {accountState.notice && (
+        <Notice global={true} type={accountState.notice.type}>
+          {accountState.notice.message}
+        </Notice>
+      )}
     </div>
   );
 }

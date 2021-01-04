@@ -33,4 +33,19 @@ const SectionCSS = css`
   padding: 0;
 `;
 
-export { ButtonCSS, SectionCSS };
+function StatusCSS(status) {
+  return css`
+    color: ${status === 'active'
+      ? '#21bc67'
+      : status === 'inactive'
+      ? '#8d8d8d'
+      : status === 'disabled'
+      ? '#8d8d8d'
+      : '#f24e4e'};
+    font-weight: 600;
+    font-style: ${status === 'disabled' ? 'italic' : 'none'};
+    text-transform: capitalize;
+  `;
+}
+
+export { ButtonCSS, SectionCSS, StatusCSS };

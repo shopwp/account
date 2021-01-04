@@ -24,7 +24,7 @@ function AccountIcon({ avatar }) {
   );
 }
 
-function AccountHeaderDropdown() {
+function AccountHeaderDropdown({ pages }) {
   const AccountHeaderDropdownCSS = css`
     list-style: none;
     margin: 0;
@@ -50,6 +50,7 @@ function AccountHeaderDropdown() {
     display: block;
     width: calc(100% - 40px);
     padding: 15px 20px;
+    font-weight: bold;
 
     svg {
       position: relative;
@@ -62,10 +63,6 @@ function AccountHeaderDropdown() {
     }
   `;
 
-  function onClick() {
-    console.log('on logout click');
-  }
-
   function onLogout() {
     localStorage.removeItem('wpshopify-account-auth-token');
     window.location.href = '/login';
@@ -73,16 +70,7 @@ function AccountHeaderDropdown() {
 
   return (
     <ul css={AccountHeaderDropdownCSS}>
-      <li>
-        <a href='/settings' onClick={onClick} css={AccountHeaderDropdownLinkCSS}>
-          Settings
-        </a>
-      </li>
-      <li>
-        <a href='/billing' onClick={onClick} css={AccountHeaderDropdownLinkCSS}>
-          Billing
-        </a>
-      </li>
+      <AccountDropdownPages pages={[{ title: 'settings', link: '/' }]} />
       <li>
         <a href='#!' onClick={onLogout} css={AccountHeaderDropdownLinkCSS}>
           <svg
@@ -99,6 +87,42 @@ function AccountHeaderDropdown() {
         </a>
       </li>
     </ul>
+  );
+}
+
+function AccountDropdownPages({ pages }) {
+  return pages.map((page) => <AccountDropdownPage key={page.title} page={page} />);
+}
+
+function AccountDropdownPage({ page }) {
+  const linkCSS = css`
+    text-decoration: none;
+    color: #0f0728;
+    text-align: left;
+    display: block;
+    width: calc(100% - 40px);
+    padding: 15px 20px;
+    text-transform: capitalize;
+    font-weight: bold;
+
+    svg {
+      position: relative;
+      top: 3px;
+      margin-right: 5px;
+    }
+
+    &:hover {
+      color: #415aff;
+      cursor: pointer;
+    }
+  `;
+
+  return (
+    <li>
+      <a href={page.link} css={linkCSS}>
+        {page.title}
+      </a>
+    </li>
   );
 }
 
@@ -147,7 +171,7 @@ function AccountHeader() {
   return (
     <header css={AccountHeaderCSS}>
       <Tippy
-        content={<AccountHeaderDropdown />}
+        content={<AccountHeaderDropdown pages={accountState.pages} />}
         allowHTML={true}
         interactive={true}
         theme='light'

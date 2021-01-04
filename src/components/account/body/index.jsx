@@ -3,12 +3,10 @@ import { css } from '@emotion/react/macro';
 import AccountHeader from '../header';
 import AccountHome from '../home';
 import AccountLicenses from '../licenses';
-import AccountBilling from '../billing';
+import AccountSubscriptions from '../subscriptions';
 import AccountPurchases from '../purchases';
 import AccountDownloads from '../downloads';
-import AccountSettings from '../settings';
 import AccountAffiliate from '../affiliate';
-
 import { AccountContext } from '../_state/context';
 import { useContext } from 'react';
 
@@ -32,17 +30,14 @@ function Body() {
       case 'licenses':
         return <AccountLicenses />;
 
-      case 'billing':
-        return <AccountBilling />;
+      case 'subscriptions':
+        return <AccountSubscriptions />;
 
       case 'purchases':
         return <AccountPurchases />;
 
       case 'downloads':
         return <AccountDownloads />;
-
-      case 'settings':
-        return <AccountSettings />;
 
       case 'affiliate':
         return <AccountAffiliate />;

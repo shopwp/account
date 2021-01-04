@@ -2,7 +2,15 @@ import { jsx, css } from '@emotion/react/macro';
 import Loader from 'react-loaders';
 import 'loaders.css/src/animations/ball-pulse.scss';
 
-function Button({ text, onClick, disabled }) {
+function Button({
+  text,
+  onClick,
+  disabled,
+  extraCSS,
+  icon = false,
+  type = 'primary',
+  size = 'normal',
+}) {
   const ButtonCSS = css`
     padding: 0.6em 1.5em 0.7em;
     color: #fff;
@@ -11,7 +19,7 @@ function Button({ text, onClick, disabled }) {
     position: relative;
     text-decoration: none;
     font-weight: 500;
-    font-size: 17px;
+    font-size: ${size === 'small' ? '15px' : '17px'};
     font-family: Manrope, arial;
     display: inline-block;
     line-height: 1.1;
@@ -54,9 +62,39 @@ function Button({ text, onClick, disabled }) {
     }
   `;
 
+  const ButtonSecondaryCSS = css`
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+      rgba(0, 0, 0, 0.12) 0px 1px 1px 0px, rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
+      rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+      rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
+    outline: none;
+    border: none;
+    padding: 6px 12px 6px 12px;
+    font-size: 15px;
+    border-radius: 5px;
+    transition: all 0.18s ease;
+
+    &:hover {
+      cursor: pointer;
+      background: #eeeeee;
+    }
+
+    svg {
+      width: 15px;
+      margin-left: 8px;
+      position: relative;
+      top: 1px;
+    }
+  `;
+
   return (
-    <button css={ButtonCSS} disabled={disabled} onClick={onClick}>
+    <button
+      css={[type === 'primary' ? ButtonCSS : ButtonSecondaryCSS, extraCSS]}
+      disabled={disabled}
+      onClick={onClick}>
       <LoaderWrapper disabled={disabled} /> {!disabled && text}
+      {icon && icon}
     </button>
   );
 }

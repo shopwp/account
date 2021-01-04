@@ -9,11 +9,44 @@ function AccountReducer(state, action) {
       };
 
     case 'SET_ACTIVE_PAGE':
-      console.log('state.activePage', state.activePage);
-
       return {
         ...state,
         activePage: update(state.activePage, { $set: action.payload }),
+      };
+
+    case 'TOGGLE_MODAL':
+      return {
+        ...state,
+        isModalOpen: update(state.isModalOpen, { $set: action.payload }),
+      };
+
+    case 'SET_ACTIVE_MODAL_VIEW':
+      return {
+        ...state,
+        activeModalView: update(state.activeModalView, { $set: action.payload }),
+      };
+
+    case 'SET_IS_AUTHED':
+      return {
+        ...state,
+        isAuthed: update(state.isAuthed, { $set: action.payload }),
+      };
+
+    case 'SET_NOTICE':
+      return {
+        ...state,
+        notice: update(state.notice, { $set: action.payload }),
+      };
+
+    case 'UPDATE_CUSTOMER':
+      var newCustomer = state.customer;
+
+      var newCustomerInfo = update(newCustomer.info, { $merge: action.payload });
+      newCustomer.info = newCustomerInfo;
+
+      return {
+        ...state,
+        customer: newCustomer,
       };
 
     default: {

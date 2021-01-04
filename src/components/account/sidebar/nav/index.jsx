@@ -4,7 +4,6 @@ import {
   IconBilling,
   IconPurchaseHistory,
   IconDownload,
-  IconSettings,
   IconAffiliate,
   IconHome,
 } from '../../../_common/icons';
@@ -12,64 +11,84 @@ import { AccountContext } from '../../_state/context';
 import { useContext } from 'react';
 
 function Nav() {
-  const [accountState, accountDispatch] = useContext(AccountContext);
+  const [accountState] = useContext(AccountContext);
 
   const NavCSS = css`
     display: flex;
     flex-direction: column;
     width: 100%;
-
-    a {
-      color: #0f0728;
-      padding: 15px 50px 15px 25px;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: 600;
-
-      svg {
-        width: 16px;
-        margin-right: 5px;
-        position: relative;
-        top: 1px;
-      }
-
-      &:hover {
-        color: #415aff;
-      }
-    }
+    margin-top: 30px;
   `;
-
-  function onNavClick(event) {
-    accountDispatch({
-      type: 'SET_ACTIVE_PAGE',
-      payload: event.target.innerText.trim().toLowerCase(),
-    });
-  }
 
   return (
     <div css={NavCSS}>
-      <a href='#!' onClick={onNavClick}>
-        <IconHome /> Home
-      </a>
-      <a href='#!' onClick={onNavClick}>
-        <IconCopy /> Licenses
-      </a>
-      <a href='#!' onClick={onNavClick}>
-        <IconBilling /> Billing
-      </a>
-      <a href='#!' onClick={onNavClick}>
-        <IconPurchaseHistory /> Purchases
-      </a>
-      <a href='#!' onClick={onNavClick}>
-        <IconDownload /> Downloads
-      </a>
-      <a href='#!' onClick={onNavClick}>
-        <IconSettings /> Settings
-      </a>
-      <a href='#!' onClick={onNavClick}>
-        <IconAffiliate /> Affiliate
-      </a>
+      <NavLinks links={accountState.pages} />
     </div>
+  );
+}
+
+function NavLinks({ links }) {
+  return links.map((link) => <NavLink key={link.title} link={link} />);
+}
+
+function NavLink({ link }) {
+  const [accountState, accountDispatch] = useContext(AccountContext);
+
+  const NavLinkCSS = css`
+    color: ${link.title === accountState.activePage ? '#415aff' : '#0f0728'};
+    padding: 15px 50px 15px 25px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: capitalize;
+
+    svg {
+      width: 16px;
+      margin-right: 5px;
+      position: relative;
+      top: 1px;
+    }
+
+    &:hover {
+      color: #415aff;
+    }
+  `;
+
+  function onClick(event) {
+    accountDispatch({
+      type: 'SET_ACTIVE_PAGE',
+      payload: link.title,
+    });
+  }
+
+  function getLinkIcon() {
+    switch (link.title) {
+      case 'home':
+        return <IconHome />;
+      case 'licenses':
+        return <IconCopy />;
+
+      case 'subscriptions':
+        return <IconBilling />;
+
+      case 'purchases':
+        return <IconPurchaseHistory />;
+
+      case 'downloads':
+        return <IconDownload />;
+
+      case 'affiliate':
+        return <IconAffiliate />;
+
+      default:
+        return <IconHome />;
+    }
+  }
+
+  return (
+    <a href='#!' css={NavLinkCSS} onClick={onClick}>
+      {getLinkIcon()} {link.title}
+    </a>
   );
 }
 

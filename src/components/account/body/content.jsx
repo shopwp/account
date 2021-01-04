@@ -19,6 +19,10 @@ function AccountBodyContent({ children }) {
     animation: ${slideInFromLeft} 0.3s ease-out;
     animation-iteration-count: 1;
     border: 1px solid #e3e8ee;
+
+    > p {
+      margin: 0;
+    }
   `;
 
   return <div css={AccountBodyContentCSS}>{children}</div>;

@@ -8,6 +8,7 @@ function Table({ children, extraCSS }) {
     border-spacing: 0;
     opacity: 1;
     max-width: 500px;
+    position: relative;
 
     tr:nth-of-type(even) {
       background: #f8f8f8;
