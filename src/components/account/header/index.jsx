@@ -24,7 +24,7 @@ function AccountIcon({ avatar }) {
   );
 }
 
-function AccountHeaderDropdown({ pages }) {
+function AccountHeaderDropdown() {
   const AccountHeaderDropdownCSS = css`
     list-style: none;
     margin: 0;
@@ -65,7 +65,7 @@ function AccountHeaderDropdown({ pages }) {
 
   function onLogout() {
     localStorage.removeItem('wpshopify-account-auth-token');
-    window.location.href = '/login';
+    window.location.href = '/login?logout=true';
   }
 
   return (
@@ -127,7 +127,7 @@ function AccountDropdownPage({ page }) {
 }
 
 function AccountHeader() {
-  const [accountState] = useContext(AccountContext);
+  const [accountState, accountDispatch] = useContext(AccountContext);
 
   const ArrowCSS = css`
     width: 9px;
@@ -171,7 +171,7 @@ function AccountHeader() {
   return (
     <header css={AccountHeaderCSS}>
       <Tippy
-        content={<AccountHeaderDropdown pages={accountState.pages} />}
+        content={<AccountHeaderDropdown />}
         allowHTML={true}
         interactive={true}
         theme='light'

@@ -47,7 +47,7 @@ function AccountHome() {
 
   return (
     <div>
-      <AccountBodyHeader heading='👋 Good to see you again' />
+      <AccountBodyHeader heading='Dashboard' />
       {accountState.customer && (
         <AccountBodyContent>
           <p css={NameCSS}>{accountState.customer.info.name}</p>
@@ -88,7 +88,7 @@ function AccountHome() {
           </div>
 
           <div css={SectionCSS}>
-            <Label text='Details:' hasBorder={false} />
+            <Label text='General Details:' hasBorder={false} />
             <Table>
               <TableBody>
                 <tr>
@@ -96,12 +96,23 @@ function AccountHome() {
                   <Td>{prettyDate(accountState.customer.info.joined)}</Td>
                 </tr>
                 <tr>
-                  <Td>Purchase count</Td>
+                  <Td>Purchases</Td>
                   <Td>{accountState.customer.info.purchase_count}</Td>
                 </tr>
                 <tr>
                   <Td>Amount spent</Td>
                   <Td>${accountState.customer.info.purchase_value}</Td>
+                </tr>
+                <tr>
+                  <Td>Slack channel</Td>
+                  <Td>
+                    <a
+                      href='https://join.slack.com/t/wpshopify/shared_invite/zt-kjc3ptom-WEOiTGaqgdhrFF1IXbUsKA'
+                      target='_blank'
+                      rel='noreferrer'>
+                      Join the private Slack channel
+                    </a>
+                  </Td>
                 </tr>
               </TableBody>
             </Table>

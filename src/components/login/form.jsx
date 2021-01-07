@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { css } from '@emotion/react/macro';
 import Button from '../_common/button';
+import Notice from '../_common/notice';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 function LoginForm() {
@@ -8,6 +9,16 @@ function LoginForm() {
   const [password, setPassword] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [message, setMessage] = useState(false);
+  const [notice, setNotice] = useState(() => {
+    if (window.location.search.includes('logout=true')) {
+      return {
+        type: 'success',
+        message: 'You have been logged out successfully.',
+      };
+    } else {
+      return false;
+    }
+  });
 
   async function loginCustomer(creds) {
     setDisabled(true);
@@ -142,6 +153,11 @@ function LoginForm() {
 
   return (
     <div css={LoginFormWrapperCSS}>
+      {notice && (
+        <Notice type='success' global={true}>
+          {notice.message}
+        </Notice>
+      )}
       <h1 css={HeadingCSS}>Customer Login</h1>
       <label css={LabelCSS}>Email</label>
       <input

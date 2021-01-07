@@ -65,6 +65,7 @@ function ModalContentProfileUpdate({ accountState, accountDispatch }) {
 
     setIsBusy(false);
     accountDispatch({ type: 'TOGGLE_MODAL', payload: false });
+
     accountDispatch({
       type: 'SET_NOTICE',
       payload: {

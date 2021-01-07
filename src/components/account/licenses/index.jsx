@@ -11,6 +11,7 @@ import Td from '../../_common/tables/body/td';
 import Label from '../../_common/label';
 import Notice from '../../_common/notice';
 import prettyDate from '../../_common/date';
+import { deactivateLicense } from '../../_common/api.jsx';
 import copy from 'clipboard-copy';
 import to from 'await-to-js';
 
@@ -40,13 +41,14 @@ function License({ license }) {
   const [isCopyingLicense, setIsCopyingLicense] = useState(false);
   const [copyingLicenseMessage, setCopyingLicenseMessage] = useState('Copy');
   const [key] = useState(license.key);
+  const [siteCount, setSiteCount] = useState(license.site_count);
 
   const LicenseKeyCSS = css`
     background-color: #eff7ff;
-    padding: 10px 12px 8px 12px;
+    padding: 10px 5px 8px 5px;
     border-radius: 5px;
     position: relative;
-    font-size: 17px;
+    font-size: 16px;
     width: 337px;
     letter-spacing: 1px;
     position: relative;
@@ -114,17 +116,15 @@ function License({ license }) {
   function onMouseLeave(e) {
     setIsCopyingLicense(false);
     setCopyingLicenseMessage('Copy');
-    //  document.selection.empty();
   }
 
   async function copyLicense(target) {
-    console.log('target', target);
+    const [err] = await to(copy(target.value));
 
-    const [err, result] = await to(copy(target.value));
-    console.log('result', result);
-    console.log('err', err);
+    if (err) {
+      console.error('Error copying license key!');
+    }
 
-    console.log('target.value', target.value);
     setCopyingLicenseMessage('Copied!');
     target.select();
 
@@ -166,8 +166,8 @@ function License({ license }) {
       </div>
 
       <div css={SectionCSS}>
-        <Label text={'Activated Sites: ' + license.site_count + ' / ' + license.limit} />
-        <LicenseSites sites={license.sites} />
+        <Label text={'Activated Sites: ' + siteCount + ' / ' + license.limit} />
+        <LicenseSites license={license} setSiteCount={setSiteCount} />
       </div>
     </section>
   );
@@ -248,12 +248,17 @@ function formatSiteUrl(url) {
   return url;
 }
 
-function LicenseSite({ site }) {
+function LicenseSite({ license, site, sites, setSites, setSiteCount }) {
+  const [isBusy, setIsBusy] = useState(false);
+  const [, accountDispatch] = useContext(AccountContext);
+
   const LicenseSiteCSS = css`
     margin: 0;
     display: flex;
     flex-direction: row-reverse;
     justify-content: flex-end;
+    opacity: ${isBusy ? 0.4 : 1};
+    transition: all 0.3s ease;
 
     > div:first-of-type:hover + div span {
       background: #ffe6cf;
@@ -283,7 +288,7 @@ function LicenseSite({ site }) {
     max-width: 300px;
 
     &:hover {
-      cursor: pointer;
+      cursor: ${isBusy ? 'not-allowed' : 'pointer'};
     }
 
     svg {
@@ -310,7 +315,52 @@ function LicenseSite({ site }) {
   const siteUrl = formatSiteUrl(site.url);
 
   function onDeactiveSite(e) {
-    console.log('on onDeactiveSite', e);
+    if (isBusy) {
+      return;
+    }
+    deactivateLicenseKey();
+  }
+
+  async function deactivateLicenseKey() {
+    console.log('on deactivateLicenseKey');
+
+    setIsBusy(true);
+    const [error, response] = await to(
+      deactivateLicense({
+        key: license.key,
+        url: siteUrl,
+        itemName: license.name,
+        itemId: license.download_id,
+      })
+    );
+    setIsBusy(false);
+    console.log('error', error);
+    console.log('response', response);
+    console.log('sites', sites);
+
+    if (!response.success) {
+      console.error('Error removing site!');
+    }
+
+    var newstes = sites.filter((s) => s.url !== site.url);
+
+    setSites(newstes);
+    setSiteCount(newstes.length);
+
+    accountDispatch({
+      type: 'SET_NOTICE',
+      payload: {
+        message: 'Successfully deactivated site: ' + siteUrl,
+        type: 'success',
+      },
+    });
+
+    setTimeout(function () {
+      accountDispatch({
+        type: 'SET_NOTICE',
+        payload: false,
+      });
+    }, 4500);
   }
 
   return (
@@ -326,7 +376,9 @@ function LicenseSite({ site }) {
   );
 }
 
-function LicenseSites({ sites }) {
+function LicenseSites({ license, setSiteCount }) {
+  const [sites, setSites] = useState(license.sites);
+
   const LicenseSitesCSS = css`
     list-style: none;
     padding: 0;
@@ -335,7 +387,14 @@ function LicenseSites({ sites }) {
   return sites.length ? (
     <ul css={LicenseSitesCSS}>
       {sites.map((site) => (
-        <LicenseSite key={site.url} site={site} />
+        <LicenseSite
+          license={license}
+          key={site.url}
+          site={site}
+          setSites={setSites}
+          sites={sites}
+          setSiteCount={setSiteCount}
+        />
       ))}
     </ul>
   ) : (

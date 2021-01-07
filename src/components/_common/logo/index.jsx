@@ -1,4 +1,4 @@
-import { jsx, css } from '@emotion/react/macro';
+import { css } from '@emotion/react/macro';
 
 function Logo({ color, width, height }) {
   const LogoLink = css`
@@ -7,6 +7,8 @@ function Logo({ color, width, height }) {
     justify-content: center;
     padding: 15px;
     width: ${width ? width : '45px'};
+    position: relative;
+    top: 7px;
   `;
 
   const LogoCSS = css`
