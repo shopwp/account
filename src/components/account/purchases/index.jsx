@@ -44,8 +44,6 @@ function Purchases({ purchases }) {
     max-width: 100%;
   `;
 
-  console.log('purchases', purchases);
-
   return (
     <Table extraCSS={PurchasesTableCSS}>
       <TableHeader>

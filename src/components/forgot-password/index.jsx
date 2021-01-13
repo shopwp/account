@@ -33,8 +33,6 @@ function ForgotPassword() {
     setDisabled(false);
     setMessage(payload.message);
 
-    console.log('payload', payload);
-
     if (payload.success) {
       setEmail('');
       setMessageType('success');

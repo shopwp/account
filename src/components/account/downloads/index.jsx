@@ -36,11 +36,15 @@ function Downloads({ downloads }) {
     max-width: 100%;
   `;
 
+  const narrowCol = css`
+    width: 130px;
+  `;
+
   return (
     <Table extraCSS={DownloadsTableCSS}>
       <TableHeader>
-        <Th>Name</Th>
-        <Th>Latest Version</Th>
+        <Th extraCSS={narrowCol}>Name</Th>
+        <Th extraCSS={narrowCol}>Latest Version</Th>
         <Th>Files</Th>
       </TableHeader>
       <TableBody>

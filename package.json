@@ -12,6 +12,7 @@
     "await-to-js": "^2.1.1",
     "clipboard-copy": "^4.0.1",
     "customize-cra": "^1.0.0",
+    "html-react-parser": "^1.1.2",
     "immutability-helper": "^3.1.1",
     "loaders.css": "^0.1.2",
     "node-sass": "4.14.1",

@@ -35,7 +35,12 @@ function AccountModal() {
         return <ModalContentPaymentUpdate />;
 
       case 'subscriptionCancel':
-        return <ModalContentSubscriptionCancel />;
+        return (
+          <ModalContentSubscriptionCancel
+            accountState={accountState}
+            accountDispatch={accountDispatch}
+          />
+        );
 
       case 'profileUpdate':
         return (

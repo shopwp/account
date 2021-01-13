@@ -139,9 +139,9 @@ function AccountHeader() {
 
   const AccountHeaderCSS = css`
     margin: 0;
-    padding: 23px 30px;
+    padding: 23px 60px 23px 30px;
     background: white;
-    width: calc(100% - 60px);
+    width: calc(100% - 90px);
     text-align: right;
     border-bottom: 1px solid #e3e8ee;
 
@@ -180,7 +180,7 @@ function AccountHeader() {
         arrow={false}>
         <a href='#!' css={AccountHeaderLinkCSS} onClick={onClick}>
           <AccountIcon avatar={accountState.customer ? accountState.customer.info.avatar : false} />
-          Andrew Robbins{' '}
+          {accountState.customer && accountState.customer.info.name + ' '}
           <svg
             css={ArrowCSS}
             focusable='false'

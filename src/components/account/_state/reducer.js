@@ -38,6 +38,12 @@ function AccountReducer(state, action) {
         notice: update(state.notice, { $set: action.payload }),
       };
 
+    case 'SET_ACTIVE_SUBSCRIPTION':
+      return {
+        ...state,
+        subscription: update(state.subscription, { $set: action.payload }),
+      };
+
     case 'UPDATE_CUSTOMER':
       var newCustomer = state.customer;
 

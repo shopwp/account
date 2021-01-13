@@ -107,8 +107,6 @@ function License({ license }) {
     margin-top: 7px;
   `;
 
-  console.log('license', license);
-
   function onMouseEnter(e) {
     setIsCopyingLicense(true);
   }
@@ -398,7 +396,16 @@ function LicenseSites({ license, setSiteCount }) {
       ))}
     </ul>
   ) : (
-    <Notice type='info'>No sites activated yet</Notice>
+    <Notice type='info'>
+      No sites activated yet. Learn how to{' '}
+      <a
+        href='https://docs.wpshop.io/#/guides/upgrading-to-pro?id=_7-enable-updates'
+        target='_blank'
+        rel='noreferrer'>
+        activate your site
+      </a>
+      .
+    </Notice>
   );
 }
 

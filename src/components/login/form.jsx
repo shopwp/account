@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { css } from '@emotion/react/macro';
 import Button from '../_common/button';
 import Notice from '../_common/notice';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { BrowserRouter as Link } from 'react-router-dom';
 
 function LoginForm() {
   const [username, setUsername] = useState(false);
   const [password, setPassword] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [message, setMessage] = useState(false);
-  const [notice, setNotice] = useState(() => {
+  const [notice] = useState(() => {
     if (window.location.search.includes('logout=true')) {
       return {
         type: 'success',
@@ -48,8 +48,6 @@ function LoginForm() {
     } else {
       setMessage(payload.message);
     }
-
-    console.log('result', payload);
 
     // appDispatch({ type: 'SET_CUSTOMER', payload: resultok.customers[0] });
   }

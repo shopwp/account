@@ -13,8 +13,6 @@ import prettyDate from '../../_common/date';
 import { StatusCSS } from '../../_common/styles';
 
 function Subscription({ subscription }) {
-  console.log('subscription', subscription);
-
   const [accountState, accountDispatch] = useContext(AccountContext);
 
   const SubscriptionActionCSS = css`
@@ -39,6 +37,7 @@ function Subscription({ subscription }) {
     e.preventDefault();
 
     accountDispatch({ type: 'SET_ACTIVE_MODAL_VIEW', payload: 'subscriptionCancel' });
+    accountDispatch({ type: 'SET_ACTIVE_SUBSCRIPTION', payload: subscription });
     accountDispatch({ type: 'TOGGLE_MODAL', payload: true });
   }
 
@@ -96,8 +95,6 @@ function AccountSubscriptions() {
   const purchaseLinkCSS = css`
     margin-left: 8px;
   `;
-
-  console.log('subscriptions', accountState.customer.subscriptions);
 
   return (
     <div>

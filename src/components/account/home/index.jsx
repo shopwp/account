@@ -17,6 +17,23 @@ import { IconEdit } from '../../_common/icons';
 function AccountHome() {
   const [accountState, accountDispatch] = useContext(AccountContext);
 
+  return (
+    <div>
+      <AccountBodyHeader heading='Dashboard' />
+
+      <AccountBodyContent>
+        {accountState.customer && (
+          <AccountBodyContentInner
+            customer={accountState.customer}
+            accountDispatch={accountDispatch}
+          />
+        )}
+      </AccountBodyContent>
+    </div>
+  );
+}
+
+function AccountBodyContentInner({ customer, accountDispatch }) {
   const NameCSS = css`
     font-size: 20px;
     margin: 0;
@@ -47,78 +64,71 @@ function AccountHome() {
 
   return (
     <div>
-      <AccountBodyHeader heading='Dashboard' />
-      {accountState.customer && (
-        <AccountBodyContent>
-          <p css={NameCSS}>{accountState.customer.info.name}</p>
-          <p css={EmailCSS}>{accountState.customer.info.email}</p>
+      <p css={NameCSS}>{customer.info.name}</p>
+      <p css={EmailCSS}>{customer.info.email}</p>
+      <div css={SectionCSS}>
+        <Label text='Profile:' hasBorder={false} />
 
-          <div css={SectionCSS}>
-            <Label text='Profile:' hasBorder={false} />
-
-            <Table extraCSS={editThCSS}>
-              <TableHeader>
-                <Th extraCSS={editThCSS}>
-                  <Button
-                    text='Edit'
-                    type='secondary'
-                    onClick={onProfileEdit}
-                    extraCSS={editCSS}
-                    icon={<IconEdit />}
-                  />
-                </Th>
-              </TableHeader>
-              <TableBody>
-                <tr>
-                  <Td>Name</Td>
-                  <Td>{accountState.customer.info.name}</Td>
-                </tr>
-                <tr>
-                  <Td>Email</Td>
-                  <Td>{accountState.customer.info.email}</Td>
-                </tr>
-                <tr>
-                  <Td>Password</Td>
-                  <Td>
-                    &bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;
-                  </Td>
-                </tr>
-              </TableBody>
-            </Table>
-          </div>
-
-          <div css={SectionCSS}>
-            <Label text='General Details:' hasBorder={false} />
-            <Table>
-              <TableBody>
-                <tr>
-                  <Td>Joined</Td>
-                  <Td>{prettyDate(accountState.customer.info.joined)}</Td>
-                </tr>
-                <tr>
-                  <Td>Purchases</Td>
-                  <Td>{accountState.customer.info.purchase_count}</Td>
-                </tr>
-                <tr>
-                  <Td>Amount spent</Td>
-                  <Td>${accountState.customer.info.purchase_value}</Td>
-                </tr>
-                <tr>
-                  <Td>Slack channel</Td>
-                  <Td>
-                    <a
-                      href='https://join.slack.com/t/wpshopify/shared_invite/zt-kjc3ptom-WEOiTGaqgdhrFF1IXbUsKA'
-                      target='_blank'
-                      rel='noreferrer'>
-                      Join the private Slack channel
-                    </a>
-                  </Td>
-                </tr>
-              </TableBody>
-            </Table>
-          </div>
-        </AccountBodyContent>
-      )}
+        <Table extraCSS={editThCSS}>
+          <TableHeader>
+            <Th extraCSS={editThCSS}>
+              <Button
+                text='Edit'
+                type='secondary'
+                onClick={onProfileEdit}
+                extraCSS={editCSS}
+                icon={<IconEdit />}
+              />
+            </Th>
+          </TableHeader>
+          <TableBody>
+            <tr>
+              <Td>Name</Td>
+              <Td>{customer.info.name}</Td>
+            </tr>
+            <tr>
+              <Td>Email</Td>
+              <Td>{customer.info.email}</Td>
+            </tr>
+            <tr>
+              <Td>Password</Td>
+              <Td>
+                &bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;
+              </Td>
+            </tr>
+          </TableBody>
+        </Table>
+      </div>
+      <div css={SectionCSS}>
+        <Label text='General Details:' hasBorder={false} />
+        <Table>
+          <TableBody>
+            <tr>
+              <Td>Joined</Td>
+              <Td>{prettyDate(customer.info.joined)}</Td>
+            </tr>
+            <tr>
+              <Td>Purchases</Td>
+              <Td>{customer.info.purchase_count}</Td>
+            </tr>
+            <tr>
+              <Td>Amount spent</Td>
+              <Td>${customer.info.purchase_value}</Td>
+            </tr>
+            <tr>
+              <Td>Slack channel</Td>
+              <Td>
+                <a
+                  href='https://join.slack.com/t/wpshopify/shared_invite/zt-kjc3ptom-WEOiTGaqgdhrFF1IXbUsKA'
+                  target='_blank'
+                  rel='noreferrer'>
+                  Join the private Slack channel
+                </a>
+              </Td>
+            </tr>
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }
