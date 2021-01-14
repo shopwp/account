@@ -37,4 +37,25 @@ async function updateProfile(data) {
   return await response.json();
 }
 
-export { updateProfile, deactivateLicense };
+async function cancelSubscription(data) {
+  const token = JSON.parse(localStorage.getItem('wpshopify-account-auth-token'));
+  console.log('token', token);
+
+  const response = await fetch(
+    'https://wpshopify-web.loc/wp-json/customers/v1/subscription/cancel',
+    {
+      body: JSON.stringify(data),
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token.token,
+      },
+    }
+  );
+  console.log('response', response);
+
+  return await response.json();
+}
+
+export { updateProfile, deactivateLicense, cancelSubscription };

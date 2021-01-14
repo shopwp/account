@@ -12,7 +12,7 @@ import Td from '../../_common/tables/body/td';
 import Th from '../../_common/tables/header/th';
 import prettyDate from '../../_common/date';
 import Button from '../../_common/button';
-import { IconEdit } from '../../_common/icons';
+import { IconEdit, IconExternal } from '../../_common/icons';
 
 function AccountHome() {
   const [accountState, accountDispatch] = useContext(AccountContext);
@@ -122,7 +122,7 @@ function AccountBodyContentInner({ customer, accountDispatch }) {
                   href='https://join.slack.com/t/wpshopify/shared_invite/zt-kjc3ptom-WEOiTGaqgdhrFF1IXbUsKA'
                   target='_blank'
                   rel='noreferrer'>
-                  Join the private Slack channel
+                  Open Slack channel <IconExternal />
                 </a>
               </Td>
             </tr>

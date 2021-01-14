@@ -40,6 +40,7 @@ function Subscription({ subscription }) {
     accountDispatch({ type: 'SET_ACTIVE_SUBSCRIPTION', payload: subscription });
     accountDispatch({ type: 'TOGGLE_MODAL', payload: true });
   }
+  console.log('subscriptionsubscription', subscription.gateway.includes('paypal'));
 
   return (
     <tr>
@@ -52,12 +53,18 @@ function Subscription({ subscription }) {
       <Td extraCSS={StatusCSS(subscription.status)}>{subscription.status}</Td>
       <Td>{prettyDate(subscription.expiration)}</Td>
       <Td>{subscription.bill_times}</Td>
+
       <Td>
-        <a href='!#' css={SubscriptionActionCSS} onClick={openPaymentUpdateModal}>
-          Update payment method
-        </a>
+        {subscription.status !== 'cancelled' && (
+          <a href='!#' css={SubscriptionActionCSS} onClick={openPaymentUpdateModal}>
+            Update payment method
+          </a>
+        )}
+
         <a href='/' css={SubscriptionActionCSS} onClick={openSubscriptionCancelModal}>
-          Cancel subscription
+          {subscription.gateway.includes('paypal') && subscription.status === 'cancelled'
+            ? 'Purchase new subscription'
+            : 'Cancel subscription'}
         </a>
       </Td>
     </tr>

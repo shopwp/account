@@ -6,9 +6,44 @@ import {
   IconDownload,
   IconAffiliate,
   IconHome,
+  IconExternal,
 } from '../../../_common/icons';
 import { AccountContext } from '../../_state/context';
 import { useContext } from 'react';
+
+function NavLinksSecondary() {
+  const NavLinksSecondaryCSS = css`
+    margin-top: 10px;
+    border-top: 1px solid #e3e8ee;
+    padding-top: 10px;
+
+    a {
+      text-decoration: none;
+      font-size: 14px;
+      text-transform: capitalize;
+      display: block;
+      color: #323232;
+      padding: 5px 50px 10px 25px;
+
+      &:hover {
+        color: #415aff;
+      }
+    }
+  `;
+  return (
+    <div css={NavLinksSecondaryCSS}>
+      <a
+        href='https://join.slack.com/t/wpshopify/shared_invite/zt-kjc3ptom-WEOiTGaqgdhrFF1IXbUsKA'
+        target='_blank'
+        rel='noreferrer'>
+        Open Slack channel <IconExternal />
+      </a>
+      <a href='https://wpshop.io/contact' target='_blank' rel='noreferrer'>
+        Contact <IconExternal />
+      </a>
+    </div>
+  );
+}
 
 function Nav() {
   const [accountState] = useContext(AccountContext);
@@ -23,6 +58,7 @@ function Nav() {
   return (
     <div css={NavCSS}>
       <NavLinks links={accountState.pages} />
+      <NavLinksSecondary />
     </div>
   );
 }
