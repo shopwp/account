@@ -78,7 +78,7 @@ function ModalContentProfileUpdate({ accountState, accountDispatch }) {
         type: 'SET_NOTICE',
         payload: false,
       });
-    }, 4500);
+    }, 5500);
   }
 
   function onNameChange(e) {

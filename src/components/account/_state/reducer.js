@@ -55,6 +55,12 @@ function AccountReducer(state, action) {
         customer: newCustomer,
       };
 
+    case 'SET_SUBSCRIPTIONS':
+      return {
+        ...state,
+        subscriptions: update(state.subscriptions, { $set: action.payload }),
+      };
+
     default: {
       throw new Error(`Unhandled action type: ${action.type} in AccountReducer`);
     }

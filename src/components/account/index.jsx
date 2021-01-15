@@ -38,6 +38,7 @@ function Account() {
       }
 
       accountDispatch({ type: 'SET_CUSTOMER', payload: customer });
+      accountDispatch({ type: 'SET_SUBSCRIPTIONS', payload: customer.subscriptions });
     }
 
     getCustomer(newUrl);

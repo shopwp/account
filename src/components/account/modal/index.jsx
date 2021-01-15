@@ -3,6 +3,7 @@ import { AccountContext } from '../_state/context';
 import Modal from 'react-modal';
 import ModalContentPaymentUpdate from './content-payment-update';
 import ModalContentSubscriptionCancel from './content-subscription-cancel';
+import ModalContentSubscriptionReactivate from './content-subscription-reactivate';
 import ModalContentProfileUpdate from './content-profile-update';
 
 Modal.setAppElement('#root');
@@ -37,6 +38,14 @@ function AccountModal() {
       case 'subscriptionCancel':
         return (
           <ModalContentSubscriptionCancel
+            accountState={accountState}
+            accountDispatch={accountDispatch}
+          />
+        );
+
+      case 'subscriptionReactivate':
+        return (
+          <ModalContentSubscriptionReactivate
             accountState={accountState}
             accountDispatch={accountDispatch}
           />

@@ -2,6 +2,7 @@ function AccountInitialState() {
   return {
     customer: false,
     subscription: false,
+    subscriptions: false,
     isModalOpen: false,
     activeModalView: false,
     activePage: 'home',

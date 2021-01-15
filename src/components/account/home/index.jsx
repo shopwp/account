@@ -13,6 +13,7 @@ import Th from '../../_common/tables/header/th';
 import prettyDate from '../../_common/date';
 import Button from '../../_common/button';
 import { IconEdit, IconExternal } from '../../_common/icons';
+import { Facebook } from 'react-content-loader';
 
 function AccountHome() {
   const [accountState, accountDispatch] = useContext(AccountContext);
@@ -22,11 +23,13 @@ function AccountHome() {
       <AccountBodyHeader heading='Dashboard' />
 
       <AccountBodyContent>
-        {accountState.customer && (
+        {accountState.customer ? (
           <AccountBodyContentInner
             customer={accountState.customer}
             accountDispatch={accountDispatch}
           />
+        ) : (
+          <Facebook />
         )}
       </AccountBodyContent>
     </div>

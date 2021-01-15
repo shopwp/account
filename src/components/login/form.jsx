@@ -36,7 +36,7 @@ function LoginForm() {
     const payload = await response.json();
 
     const customerInfo = {
-      id: payload.data.id,
+      userId: payload.data.id,
       token: payload.data.token,
     };
 

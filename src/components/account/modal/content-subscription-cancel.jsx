@@ -10,11 +10,6 @@ import { useState } from 'react';
 
 function ModalContentSubscriptionCancel({ accountState, accountDispatch }) {
   const [isBusy, setIsBusy] = useState(false);
-  const pCSS = css`
-    max-width: 82%;
-    line-height: 1.5;
-    margin-top: 10px;
-  `;
 
   const smallCSS = css`
     display: block;
@@ -22,32 +17,57 @@ function ModalContentSubscriptionCancel({ accountState, accountDispatch }) {
     line-height: 1.5;
   `;
 
+  const altPCSS = css`
+    font-size: 15px;
+    display: block;
+    margin-bottom: 15px;
+  `;
+
   async function onCancel() {
     setIsBusy(true);
     console.log('on cancel!', accountState.subscription);
     const [error, resp] = await to(cancelSubscription({ subscription: accountState.subscription }));
     setIsBusy(false);
+
     console.log('error', error);
     console.log('resp', resp);
+
+    accountDispatch({
+      type: 'SET_SUBSCRIPTIONS',
+      payload: resp,
+    });
+
+    accountDispatch({ type: 'TOGGLE_MODAL', payload: false });
+
+    accountDispatch({
+      type: 'SET_NOTICE',
+      payload: {
+        message: 'Successfully canceled subscription to ' + parse(accountState.subscription.name),
+        type: 'success',
+      },
+    });
+
+    setTimeout(function () {
+      accountDispatch({
+        type: 'SET_NOTICE',
+        payload: false,
+      });
+    }, 5500);
   }
 
   return (
     <div>
       <ModalHeader text='Cancel subscription' />
       <ModalBody>
-        <p css={pCSS}>
-          Are you sure you want to cancel your subscription to{' '}
-          {parse(accountState.subscription.name)}?
+        <Notice type='warning'>Are you sure you want to cancel your subscription?</Notice>
+        <p css={altPCSS}>
+          Canceling subscrption to: <strong>{parse(accountState.subscription.name)}</strong>
         </p>
         <small css={smallCSS}>
-          (You will no longer be charged and your license key will be deactivated. This cannot be
-          reversed. You will need to purchase a new subscription if you wish to use the plugin
-          again. Email us if you have any questions:
-          <a href='mailto:hello@wpshop.io' rel='noreferrer' target='_blank'>
-            {' '}
-            hello@wpshop.io
-          </a>
-          )
+          (You will no longer be charged and your license key will be deactivated
+          {accountState.subscription.gateway.includes('paypal')
+            ? 'This cannot be reversed. You will need to purchase a new subscription if you wish to use the plugin again. Email us if you have any questions: <a href="mailto:hello@wpshop.io" rel="noreferrer" target="_blank">hello@wpshop.io</a>)'
+            : ')'}
         </small>
         <Button size='small' text='Yes, cancel subscription' onClick={onCancel} disabled={isBusy} />
       </ModalBody>

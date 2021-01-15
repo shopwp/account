@@ -1,10 +1,11 @@
 import { css } from '@emotion/react/macro';
 import AccountBodyHeader from '../body/header';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AccountContext } from '../_state/context';
 import AccountBodyContent from '../body/content';
 import Table from '../../_common/tables';
 import Notice from '../../_common/notice';
+import { IconInfo } from '../../_common/icons';
 import TableBody from '../../_common/tables/body';
 import TableHeader from '../../_common/tables/header';
 import Th from '../../_common/tables/header/th';
@@ -13,18 +14,29 @@ import prettyDate from '../../_common/date';
 import { StatusCSS } from '../../_common/styles';
 
 function Subscription({ subscription }) {
-  const [accountState, accountDispatch] = useContext(AccountContext);
+  console.log('<Subscription>', subscription);
 
-  const SubscriptionActionCSS = css`
-    color: black;
-    padding: 4px 0;
-    display: block;
-    position: relative;
+  return (
+    <tr>
+      <Td>
+        <p dangerouslySetInnerHTML={{ __html: subscription.name }}></p>
+      </Td>
+      <Td>
+        ${subscription.recurring_amount} / {subscription.period}
+      </Td>
+      <Td extraCSS={StatusCSS(subscription.status)}>{subscription.status}</Td>
+      <Td>{prettyDate(subscription.expiration)}</Td>
+      <Td>{subscription.bill_times}</Td>
 
-    &:hover {
-      color: #415aff;
-    }
-  `;
+      <Td>
+        <SubscriptionActionLinks subscription={subscription} />
+      </Td>
+    </tr>
+  );
+}
+
+function SubscriptionActionLinks({ subscription }) {
+  const [, accountDispatch] = useContext(AccountContext);
 
   function openPaymentUpdateModal(e) {
     e.preventDefault();
@@ -40,34 +52,76 @@ function Subscription({ subscription }) {
     accountDispatch({ type: 'SET_ACTIVE_SUBSCRIPTION', payload: subscription });
     accountDispatch({ type: 'TOGGLE_MODAL', payload: true });
   }
-  console.log('subscriptionsubscription', subscription.gateway.includes('paypal'));
 
+  function openSubscriptionReactivateModal(e) {
+    e.preventDefault();
+
+    accountDispatch({ type: 'SET_ACTIVE_MODAL_VIEW', payload: 'subscriptionReactivate' });
+    accountDispatch({ type: 'SET_ACTIVE_SUBSCRIPTION', payload: subscription });
+    accountDispatch({ type: 'TOGGLE_MODAL', payload: true });
+  }
+
+  const SubscriptionActionCSS = css`
+    color: black;
+    padding: 4px 0;
+    display: block;
+    position: relative;
+
+    &:hover {
+      color: #415aff;
+    }
+  `;
   return (
-    <tr>
-      <Td>
-        <p dangerouslySetInnerHTML={{ __html: subscription.name }}></p>
-      </Td>
-      <Td>
-        ${subscription.recurring_amount} / {subscription.period}
-      </Td>
-      <Td extraCSS={StatusCSS(subscription.status)}>{subscription.status}</Td>
-      <Td>{prettyDate(subscription.expiration)}</Td>
-      <Td>{subscription.bill_times}</Td>
-
-      <Td>
-        {subscription.status !== 'cancelled' && (
-          <a href='!#' css={SubscriptionActionCSS} onClick={openPaymentUpdateModal}>
-            Update payment method
-          </a>
-        )}
-
-        <a href='/' css={SubscriptionActionCSS} onClick={openSubscriptionCancelModal}>
-          {subscription.gateway.includes('paypal') && subscription.status === 'cancelled'
-            ? 'Purchase new subscription'
-            : 'Cancel subscription'}
+    <div>
+      {subscription.status !== 'cancelled' && (
+        <a href='!#' css={SubscriptionActionCSS} onClick={openPaymentUpdateModal}>
+          Update payment method
         </a>
-      </Td>
-    </tr>
+      )}
+
+      {subscription.status === 'cancelled' ? (
+        subscription.gateway.includes('paypal') ? (
+          <PurchaseNewSubscription
+            actionCSS={SubscriptionActionCSS}
+            onClickCallback={openSubscriptionCancelModal}
+          />
+        ) : (
+          <ReactivateSubscription
+            actionCSS={SubscriptionActionCSS}
+            onClickCallback={openSubscriptionReactivateModal}
+          />
+        )
+      ) : (
+        <CancelSubscription
+          actionCSS={SubscriptionActionCSS}
+          onClickCallback={openSubscriptionCancelModal}
+        />
+      )}
+    </div>
+  );
+}
+
+function PurchaseNewSubscription({ actionCSS }) {
+  return (
+    <a href='https://wpshop.io/purchase' target='_blank' rel='noreferrer' css={actionCSS}>
+      Purchase new subscription <IconInfo />
+    </a>
+  );
+}
+
+function ReactivateSubscription({ actionCSS, onClickCallback }) {
+  return (
+    <a href='!#' onClick={onClickCallback} css={actionCSS}>
+      Reactivate subscription
+    </a>
+  );
+}
+
+function CancelSubscription({ actionCSS, onClickCallback }) {
+  return (
+    <a href='!#' onClick={onClickCallback} css={actionCSS}>
+      Cancel subscription
+    </a>
   );
 }
 
@@ -83,7 +137,7 @@ function Subscriptions({ subscriptions }) {
         <Th>Subscription</Th>
         <Th>Amount</Th>
         <Th>Status</Th>
-        <Th>Renewal Date</Th>
+        <Th>Next Renewal Date</Th>
         <Th>Times Billed</Th>
         <Th>Actions</Th>
       </TableHeader>
@@ -107,15 +161,19 @@ function AccountSubscriptions() {
     <div>
       <AccountBodyHeader heading='Subscriptions' />
 
-      {accountState.customer.subscriptions.length ? (
+      {accountState.subscriptions.length ? (
         <AccountBodyContent>
-          <Subscriptions subscriptions={accountState.customer.subscriptions} />
+          <Subscriptions subscriptions={accountState.subscriptions} />
         </AccountBodyContent>
       ) : (
         <AccountBodyContent>
           <Notice type='info'>
             No subscriptions found!
-            <a href='https://wpshop.io/purchase' target='_blank' css={purchaseLinkCSS}>
+            <a
+              href='https://wpshop.io/purchase'
+              target='_blank'
+              rel='noreferrer'
+              css={purchaseLinkCSS}>
               Purchase one today.
             </a>
           </Notice>
