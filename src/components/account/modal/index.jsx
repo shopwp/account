@@ -14,6 +14,7 @@ function AccountModal() {
   const customStyles = {
     overlay: {
       background: 'rgba(193,201,210,.7)',
+      transition: 'all 0.2s ease',
     },
     content: {
       width: '500px',

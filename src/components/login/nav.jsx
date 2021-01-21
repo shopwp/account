@@ -39,6 +39,10 @@ function LoginNav() {
     font-size: 1em;
     color: #0f0311;
     padding: 1.2em 1.1em;
+
+    &:hover {
+      text-decoration: underline;
+    }
   `;
 
   return (

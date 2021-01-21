@@ -4,13 +4,15 @@ import 'tippy.js/themes/light.css';
 import 'tippy.js/dist/tippy.css'; // optional
 import { useContext } from 'react';
 import { AccountContext } from '../_state/context';
+import { ContentLoaderProfile } from '../../_common/content-loaders';
+import React from 'react';
 
 function AccountIcon({ avatar }) {
   const AccountIconCSS = css`
     position: absolute;
-    left: -45px;
+    left: -25px;
     padding: 1px;
-    top: 14px;
+    top: 16px;
     border: 1px solid #cdcdcd;
     border-radius: 5px;
     width: 30px;
@@ -139,11 +141,21 @@ function AccountHeader() {
 
   const AccountHeaderCSS = css`
     margin: 0;
-    padding: 23px 60px 23px 30px;
+    padding: 0 60px 0 30px;
     background: white;
     width: calc(100% - 90px);
     text-align: right;
     border-bottom: 1px solid #e3e8ee;
+    min-height: 70px;
+    display: flex;
+    justify-content: flex-end;
+
+    > svg {
+      position: absolute;
+      top: 8px;
+      height: 45px;
+      right: -65px;
+    }
 
     .tippy-box[data-theme~='light'] {
       box-shadow: none;
@@ -153,15 +165,23 @@ function AccountHeader() {
     .tippy-content {
       padding: 0;
     }
+
+    .tippy-box {
+    }
   `;
 
   const AccountHeaderLinkCSS = css`
     text-decoration: none;
     color: #0f0728;
-    padding: 20px 0;
+    padding: 20px 0 20px 20px;
     position: relative;
     font-weight: bold;
     font-size: 15px;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 1;
+    }
   `;
 
   function onClick() {
@@ -170,29 +190,35 @@ function AccountHeader() {
 
   return (
     <header css={AccountHeaderCSS}>
-      <Tippy
-        content={<AccountHeaderDropdown />}
-        allowHTML={true}
-        interactive={true}
-        theme='light'
-        offset={[-18, -5]}
-        hideOnClick='toggle'
-        arrow={false}>
-        <a href='#!' css={AccountHeaderLinkCSS} onClick={onClick}>
-          <AccountIcon avatar={accountState.customer ? accountState.customer.info.avatar : false} />
-          {accountState.customer && accountState.customer.info.name + ' '}
-          <svg
-            css={ArrowCSS}
-            focusable='false'
-            role='img'
-            xmlns='http://www.w3.org/2000/svg'
-            viewBox='0 0 256 512'>
-            <path
-              fill='currentColor'
-              d='M119.5 326.9L3.5 209.1c-4.7-4.7-4.7-12.3 0-17l7.1-7.1c4.7-4.7 12.3-4.7 17 0L128 287.3l100.4-102.2c4.7-4.7 12.3-4.7 17 0l7.1 7.1c4.7 4.7 4.7 12.3 0 17L136.5 327c-4.7 4.6-12.3 4.6-17-.1z'></path>
-          </svg>
-        </a>
-      </Tippy>
+      {accountState.customer ? (
+        <Tippy
+          content={<AccountHeaderDropdown />}
+          allowHTML={true}
+          interactive={true}
+          theme='light'
+          offset={[5, -10]}
+          hideOnClick='toggle'
+          arrow={false}
+          placement='bottom-end'>
+          <a href='#!' css={AccountHeaderLinkCSS} onClick={onClick}>
+            <AccountIcon avatar={accountState.customer.info.avatar} />
+            {accountState.customer.info.name + ' '}
+
+            <svg
+              css={ArrowCSS}
+              focusable='false'
+              role='img'
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 256 512'>
+              <path
+                fill='currentColor'
+                d='M119.5 326.9L3.5 209.1c-4.7-4.7-4.7-12.3 0-17l7.1-7.1c4.7-4.7 12.3-4.7 17 0L128 287.3l100.4-102.2c4.7-4.7 12.3-4.7 17 0l7.1 7.1c4.7 4.7 4.7 12.3 0 17L136.5 327c-4.7 4.6-12.3 4.6-17-.1z'></path>
+            </svg>
+          </a>
+        </Tippy>
+      ) : (
+        <ContentLoaderProfile />
+      )}
     </header>
   );
 }

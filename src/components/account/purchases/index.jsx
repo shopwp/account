@@ -8,6 +8,7 @@ import TableBody from '../../_common/tables/body';
 import TableHeader from '../../_common/tables/header';
 import Th from '../../_common/tables/header/th';
 import Td from '../../_common/tables/body/td';
+import { ContentLoaderBullet } from '../../_common/content-loaders';
 
 function Purchase({ purchase, accountDispatch }) {
   function onLicenseClick(e) {
@@ -81,11 +82,14 @@ function AccountPurchases() {
   return (
     <div>
       <AccountBodyHeader heading='Purchases' />
-      {accountState.customer && (
-        <AccountBodyContent>
+
+      <AccountBodyContent>
+        {accountState.customer ? (
           <Purchases purchases={accountState.customer.purchases} />
-        </AccountBodyContent>
-      )}
+        ) : (
+          <ContentLoaderBullet />
+        )}
+      </AccountBodyContent>
     </div>
   );
 }

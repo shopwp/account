@@ -100,7 +100,7 @@ function ForgotPassword() {
     font-size: 42px;
     width: 100%;
     text-align: center;
-    margin-top: 0;
+    margin-top: 50px;
 
     + p {
       margin-top: -15px;

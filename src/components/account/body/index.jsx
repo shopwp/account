@@ -24,7 +24,7 @@ function Body() {
 
   function renderSwitch(activePage) {
     switch (activePage) {
-      case 'home':
+      case 'dashboard':
         return <AccountHome />;
 
       case 'licenses':

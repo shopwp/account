@@ -14,6 +14,7 @@ import prettyDate from '../../_common/date';
 import { deactivateLicense } from '../../_common/api.jsx';
 import copy from 'clipboard-copy';
 import to from 'await-to-js';
+import { ContentLoaderBullet } from '../../_common/content-loaders';
 
 function AccountLicenses() {
   const [accountState] = useContext(AccountContext);
@@ -22,18 +23,20 @@ function AccountLicenses() {
     <div>
       <AccountBodyHeader heading='Licenses' />
 
-      {accountState.customer && (
-        <AccountBodyContent>
+      <AccountBodyContent>
+        {accountState.customer ? (
           <Licenses licenses={accountState.customer.licenses} />
-        </AccountBodyContent>
-      )}
+        ) : (
+          <ContentLoaderBullet />
+        )}
+      </AccountBodyContent>
     </div>
   );
 }
 
 function Licenses({ licenses }) {
   return licenses.map((license, index) => {
-    return <License key={license.download_id} license={license} />;
+    return <License key={license.key} license={license} />;
   });
 }
 
@@ -44,7 +47,7 @@ function License({ license }) {
   const [siteCount, setSiteCount] = useState(license.site_count);
 
   const LicenseKeyCSS = css`
-    background-color: #eff7ff;
+    background-color: #fff;
     padding: 10px 5px 8px 5px;
     border-radius: 5px;
     position: relative;
@@ -53,13 +56,9 @@ function License({ license }) {
     letter-spacing: 1px;
     position: relative;
     text-align: center;
-    top: -3px;
-    border: 1px solid #ccd7ff;
+    top: 0;
+    border: 1px solid #c7c7c7;
     transition: all 0.2s ease;
-
-    &:hover {
-      background-color: #d8ecff;
-    }
 
     &:focus {
       border: 1px solid #ccd7ff;
@@ -75,18 +74,31 @@ function License({ license }) {
 
   const LicenseCSS = css`
     margin-bottom: 1em;
-    padding-bottom: 40px;
+    padding-bottom: 30px;
   `;
 
   const LicenseNameCSS = css`
-    font-size: 22px;
+    font-size: 20px;
     margin: 0;
     margin-right: 15px;
   `;
 
   const RowCSS = css`
     display: flex;
-    align-items: flex-start;
+    background: rgb(2, 0, 36);
+
+    background: linear-gradient(
+      180deg,
+      rgba(2, 0, 36, 1) 0%,
+      rgba(239, 242, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 100%
+    );
+    height: 100px;
+    padding: 15px 20px;
+    width: calc(100% - 40px);
+    border-radius: 8px;
+    align-items: baseline;
+    margin-bottom: -75px;
   `;
 
   const LicenseKeyCopyCSS = css`
@@ -104,7 +116,11 @@ function License({ license }) {
     display: flex;
     margin-left: 11px;
     position: relative;
-    margin-top: 7px;
+    margin-top: 0;
+  `;
+
+  const ExtraPaddingSectionCSS = css`
+    padding-left: 20px;
   `;
 
   function onMouseEnter(e) {
@@ -158,12 +174,12 @@ function License({ license }) {
         </div>
       </div>
 
-      <div css={SectionCSS}>
+      <div css={[SectionCSS, ExtraPaddingSectionCSS]}>
         <Label text='License Details:' hasBorder={false} />
         <LicenseDetails license={license} />
       </div>
 
-      <div css={SectionCSS}>
+      <div css={[SectionCSS, ExtraPaddingSectionCSS]}>
         <Label text={'Activated Sites: ' + siteCount + ' / ' + license.limit} />
         <LicenseSites license={license} setSiteCount={setSiteCount} />
       </div>

@@ -7,6 +7,7 @@ function LoginHeader() {
     margin: 0px 0 auto 0;
     width: calc(100% - 50px);
     padding: 10px 25px;
+    max-width: 1600px;
   `;
 
   return (

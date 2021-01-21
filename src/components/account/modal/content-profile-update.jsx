@@ -36,6 +36,7 @@ function ModalContentProfileUpdate({ accountState, accountDispatch }) {
 
   async function saveProfile() {
     setIsBusy(true);
+    setFormNotice(false);
 
     if (profileData.confirmNewPassword !== profileData.newPassword) {
       setFormNotice({

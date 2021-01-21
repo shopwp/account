@@ -10,6 +10,7 @@ import Th from '../../_common/tables/header/th';
 import Td from '../../_common/tables/body/td';
 import ButtonLink from '../../_common/button-link';
 import { IconDownload } from '../../_common/icons';
+import { ContentLoaderBullet } from '../../_common/content-loaders';
 
 function Download({ download }) {
   return (
@@ -20,7 +21,7 @@ function Download({ download }) {
         <Td>
           <ButtonLink
             download={true}
-            text='Download latest version'
+            text='Download'
             href={download.files.file}
             icon={<IconDownload />}
           />
@@ -62,11 +63,13 @@ function AccountDownloads() {
   return (
     <div>
       <AccountBodyHeader heading='Downloads' />
-      {accountState.customer && (
-        <AccountBodyContent>
+      <AccountBodyContent>
+        {accountState.customer ? (
           <Downloads downloads={accountState.customer.downloads} />
-        </AccountBodyContent>
-      )}
+        ) : (
+          <ContentLoaderBullet />
+        )}
+      </AccountBodyContent>
     </div>
   );
 }

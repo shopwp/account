@@ -1,12 +1,12 @@
 import LoginHeader from './header';
 import LoginFooter from './footer';
+import Contact from '../contact';
 import { css } from '@emotion/react/macro';
 
 function Login({ children }) {
   const LoginCSS = css`
     display: flex;
     justify-content: center;
-    height: 100vh;
     align-items: center;
     flex-direction: column;
   `;
@@ -15,6 +15,7 @@ function Login({ children }) {
     <div css={LoginCSS}>
       <LoginHeader />
       {children}
+      <Contact />
       <LoginFooter />
     </div>
   );

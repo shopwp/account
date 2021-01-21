@@ -5,16 +5,25 @@ import { AccountContext } from '../_state/context';
 import AccountBodyContent from '../body/content';
 import Table from '../../_common/tables';
 import Notice from '../../_common/notice';
-import { IconInfo } from '../../_common/icons';
+import { IconExternal } from '../../_common/icons';
 import TableBody from '../../_common/tables/body';
 import TableHeader from '../../_common/tables/header';
 import Th from '../../_common/tables/header/th';
 import Td from '../../_common/tables/body/td';
 import prettyDate from '../../_common/date';
 import { StatusCSS } from '../../_common/styles';
+import { ContentLoaderBullet } from '../../_common/content-loaders';
 
 function Subscription({ subscription }) {
   console.log('<Subscription>', subscription);
+
+  function prettyGateway(gateway) {
+    if (gateway === 'stripe') {
+      return 'Credit card';
+    }
+
+    return 'PayPal';
+  }
 
   return (
     <tr>
@@ -26,7 +35,7 @@ function Subscription({ subscription }) {
       </Td>
       <Td extraCSS={StatusCSS(subscription.status)}>{subscription.status}</Td>
       <Td>{prettyDate(subscription.expiration)}</Td>
-      <Td>{subscription.bill_times}</Td>
+      <Td>{prettyGateway(subscription.gateway)}</Td>
 
       <Td>
         <SubscriptionActionLinks subscription={subscription} />
@@ -104,7 +113,7 @@ function SubscriptionActionLinks({ subscription }) {
 function PurchaseNewSubscription({ actionCSS }) {
   return (
     <a href='https://wpshop.io/purchase' target='_blank' rel='noreferrer' css={actionCSS}>
-      Purchase new subscription <IconInfo />
+      Purchase new subscription <IconExternal />
     </a>
   );
 }
@@ -137,8 +146,8 @@ function Subscriptions({ subscriptions }) {
         <Th>Subscription</Th>
         <Th>Amount</Th>
         <Th>Status</Th>
-        <Th>Next Renewal Date</Th>
-        <Th>Times Billed</Th>
+        <Th>Renewal Date</Th>
+        <Th>Purchase Method</Th>
         <Th>Actions</Th>
       </TableHeader>
       <TableBody>
@@ -161,24 +170,26 @@ function AccountSubscriptions() {
     <div>
       <AccountBodyHeader heading='Subscriptions' />
 
-      {accountState.subscriptions.length ? (
-        <AccountBodyContent>
-          <Subscriptions subscriptions={accountState.subscriptions} />
-        </AccountBodyContent>
-      ) : (
-        <AccountBodyContent>
-          <Notice type='info'>
-            No subscriptions found!
-            <a
-              href='https://wpshop.io/purchase'
-              target='_blank'
-              rel='noreferrer'
-              css={purchaseLinkCSS}>
-              Purchase one today.
-            </a>
-          </Notice>
-        </AccountBodyContent>
-      )}
+      <AccountBodyContent>
+        {accountState.customer ? (
+          accountState.subscriptions.length ? (
+            <Subscriptions subscriptions={accountState.subscriptions} />
+          ) : (
+            <Notice type='info'>
+              No subscriptions found!
+              <a
+                href='https://wpshop.io/purchase'
+                target='_blank'
+                rel='noreferrer'
+                css={purchaseLinkCSS}>
+                Purchase one today.
+              </a>
+            </Notice>
+          )
+        ) : (
+          <ContentLoaderBullet />
+        )}
+      </AccountBodyContent>
     </div>
   );
 }

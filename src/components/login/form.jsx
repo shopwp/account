@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { css } from '@emotion/react/macro';
 import Button from '../_common/button';
 import Notice from '../_common/notice';
-import { BrowserRouter as Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function LoginForm() {
   const [username, setUsername] = useState(false);
@@ -13,7 +13,7 @@ function LoginForm() {
     if (window.location.search.includes('logout=true')) {
       return {
         type: 'success',
-        message: 'You have been logged out successfully.',
+        message: "You've been logged out successfully.",
       };
     } else {
       return false;
@@ -119,7 +119,7 @@ function LoginForm() {
     font-size: 42px;
     width: 100%;
     text-align: center;
-    margin-top: 0;
+    margin-top: 50px;
   `;
 
   const messageCSS = css`
@@ -178,8 +178,8 @@ function LoginForm() {
 
       <div css={controlsCSS}>
         <Button text='Submit' onClick={onClick} disabled={disabled} />
-        <Link to='/forgot-password' css={forgotPasswordLinkCSS}>
-          Forgot password?
+        <Link to='/forgot-password'>
+          <span css={forgotPasswordLinkCSS}>Forgot password?</span>
         </Link>
       </div>
 

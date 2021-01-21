@@ -17,7 +17,6 @@ function LoginFooter() {
     margin: 0 auto;
     width: 100%;
     display: flex;
-    border-top: 1px solid #ddd;
     padding-top: 20px;
   `;
 

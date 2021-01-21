@@ -22,7 +22,6 @@ function Notice({ children, type, global = false }) {
       : type === 'warning'
       ? '#ffedcd'
       : '#eff7ff'};
-    text-align: center;
     padding: 12px 20px 13px 40px;
     line-height: 1;
     border-radius: 4px;
@@ -41,11 +40,15 @@ function Notice({ children, type, global = false }) {
         ? '#f7c978'
         : '#bfcdff'};
     position: ${global ? 'absolute' : 'relative'};
-    top: ${global ? '55px' : 'auto'};
+    top: ${global ? '50px' : 'auto'};
     left: ${global ? 'calc(50% - 120px)' : 'auto'};
     transform: ${global ? 'translate(calc(-50% + 120px), -50%)' : 'none'};
     animation: ${fadeIn} 0.5s ease;
     animation-iteration-count: 1;
+
+    + h1 {
+      margin-top: ${global ? '130px' : 'auto'};
+    }
 
     svg {
       position: absolute;

@@ -99,7 +99,7 @@ function NavLink({ link }) {
 
   function getLinkIcon() {
     switch (link.title) {
-      case 'home':
+      case 'dashboard':
         return <IconHome />;
       case 'licenses':
         return <IconCopy />;

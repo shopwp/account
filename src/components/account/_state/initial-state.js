@@ -5,11 +5,11 @@ function AccountInitialState() {
     subscriptions: false,
     isModalOpen: false,
     activeModalView: false,
-    activePage: 'home',
+    activePage: 'dashboard',
     isAuthed: localStorage.getItem('wpshopify-account-auth-token') ? true : false,
     pages: [
       {
-        title: 'home',
+        title: 'dashboard',
         link: '/',
       },
       {

@@ -19,6 +19,11 @@ const ButtonCSS = css`
   transition: all 0.18s ease;
   opacity: 1;
 
+  &:visited,
+  &:focus {
+    color: white;
+  }
+
   &:hover {
     cursor: pointer;
     text-decoration: none;

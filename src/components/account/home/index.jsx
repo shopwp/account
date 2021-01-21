@@ -13,7 +13,7 @@ import Th from '../../_common/tables/header/th';
 import prettyDate from '../../_common/date';
 import Button from '../../_common/button';
 import { IconEdit, IconExternal } from '../../_common/icons';
-import { Facebook } from 'react-content-loader';
+import { ContentLoaderBullet } from '../../_common/content-loaders';
 
 function AccountHome() {
   const [accountState, accountDispatch] = useContext(AccountContext);
@@ -29,7 +29,7 @@ function AccountHome() {
             accountDispatch={accountDispatch}
           />
         ) : (
-          <Facebook />
+          <ContentLoaderBullet />
         )}
       </AccountBodyContent>
     </div>
