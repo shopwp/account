@@ -9,6 +9,7 @@ import TableHeader from '../../_common/tables/header';
 import Th from '../../_common/tables/header/th';
 import Td from '../../_common/tables/body/td';
 import { ContentLoaderBullet } from '../../_common/content-loaders';
+import React from 'react';
 
 function Purchase({ purchase, accountDispatch }) {
   function onLicenseClick(e) {
@@ -21,10 +22,10 @@ function Purchase({ purchase, accountDispatch }) {
       <Td>#{purchase.number}</Td>
       <Td>{purchase.payment_date}</Td>
       <Td>{purchase.details.name === 'WP Shopify' ? 'WP Shopify Pro' : purchase.details.name}</Td>
-      <Td>${purchase.details.price}</Td>
       <Td>${purchase.details.discount}</Td>
+      <Td>${purchase.details.price}</Td>
       <Td>
-        <a href={purchase.receipt_url} target='_blank'>
+        <a href={purchase.receipt_url} target='_blank' rel='noreferrer'>
           View receipt
         </a>
       </Td>
@@ -80,9 +81,8 @@ function AccountPurchases() {
   `;
 
   return (
-    <div>
+    <>
       <AccountBodyHeader heading='Purchases' />
-
       <AccountBodyContent>
         {accountState.customer ? (
           <Purchases purchases={accountState.customer.purchases} />
@@ -90,7 +90,7 @@ function AccountPurchases() {
           <ContentLoaderBullet />
         )}
       </AccountBodyContent>
-    </div>
+    </>
   );
 }
 

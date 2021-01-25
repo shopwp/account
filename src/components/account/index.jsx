@@ -3,10 +3,10 @@ import Body from './body';
 import AccountModal from './modal';
 import Notice from '../_common/notice';
 import { css } from '@emotion/react/macro';
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext } from 'react';
 import { AccountContext } from './_state/context';
 
-function Account() {
+function Account({ children }) {
   const [accountState, accountDispatch] = useContext(AccountContext);
 
   const AppCSS = css`
@@ -45,18 +45,19 @@ function Account() {
   }, [accountDispatch]);
 
   return (
-    <div className='App' css={AppCSS}>
-      <Sidebar />
-      <Body />
+    accountState.isAuthed && (
+      <div className='App' css={AppCSS}>
+        <Sidebar />
+        <Body>{children}</Body>
+        <AccountModal />
 
-      <AccountModal />
-
-      {accountState.notice && (
-        <Notice global={true} type={accountState.notice.type}>
-          {accountState.notice.message}
-        </Notice>
-      )}
-    </div>
+        {accountState.notice && (
+          <Notice global={true} type={accountState.notice.type}>
+            {accountState.notice.message}
+          </Notice>
+        )}
+      </div>
+    )
   );
 }
 

@@ -10,6 +10,7 @@ import {
 } from '../../../_common/icons';
 import { AccountContext } from '../../_state/context';
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 
 function NavLinksSecondary() {
   const NavLinksSecondaryCSS = css`
@@ -71,12 +72,16 @@ function NavLink({ link }) {
   const [accountState, accountDispatch] = useContext(AccountContext);
 
   const NavLinkCSS = css`
-    color: ${link.title === accountState.activePage ? '#415aff' : '#0f0728'};
-    padding: 15px 50px 15px 25px;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 600;
-    text-transform: capitalize;
+    a {
+      text-decoration: none;
+      color: ${link.title === accountState.activePage ? '#415aff' : '#0f0728'};
+      padding: 15px 50px 15px 25px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: capitalize;
+      margin: 0;
+    }
 
     svg {
       width: 16px;
@@ -88,6 +93,10 @@ function NavLink({ link }) {
     &:hover {
       color: #415aff;
     }
+
+    &:visited {
+      color: ${link.title === accountState.activePage ? '#415aff' : '#0f0728'};
+    }
   `;
 
   function onClick(event) {
@@ -97,34 +106,62 @@ function NavLink({ link }) {
     });
   }
 
-  function getLinkIcon() {
+  function getLink() {
     switch (link.title) {
       case 'dashboard':
-        return <IconHome />;
+        return (
+          <Link to='/'>
+            <IconHome /> {link.title}
+          </Link>
+        );
       case 'licenses':
-        return <IconCopy />;
+        return (
+          <Link to='/licenses'>
+            <IconCopy /> {link.title}
+          </Link>
+        );
 
       case 'subscriptions':
-        return <IconBilling />;
+        return (
+          <Link to='/subscriptions'>
+            <IconBilling /> {link.title}
+          </Link>
+        );
 
       case 'purchases':
-        return <IconPurchaseHistory />;
+        return (
+          <Link to='/purchases'>
+            <IconPurchaseHistory /> {link.title}
+          </Link>
+        );
 
       case 'downloads':
-        return <IconDownload />;
+        return (
+          <Link to='/downloads'>
+            <IconDownload /> {link.title}
+          </Link>
+        );
 
       case 'affiliate':
-        return <IconAffiliate />;
+        return (
+          <Link to='/affiliate'>
+            <IconAffiliate /> {link.title}
+          </Link>
+        );
 
       default:
-        return <IconHome />;
+        return (
+          <Link to='/'>
+            <IconHome /> {link.title}
+          </Link>
+        );
     }
   }
 
   return (
-    <a href='#!' css={NavLinkCSS} onClick={onClick}>
-      {getLinkIcon()} {link.title}
-    </a>
+    <p css={NavLinkCSS} onClick={onClick}>
+      {getLink()}
+    </p>
   );
 }
 

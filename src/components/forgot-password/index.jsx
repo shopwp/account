@@ -36,6 +36,7 @@ function ForgotPassword() {
     if (payload.success) {
       setEmail('');
       setMessageType('success');
+      localStorage.removeItem('wpshopify-account-auth-token');
     } else {
       setMessageType('error');
     }

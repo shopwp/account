@@ -3,19 +3,17 @@ body {
   line-height: 1.5;
 }
 
+a {
+  text-decoration: underline;
+}
+
 a,
 a:visited {
   color: black;
 }
 
 a:hover {
-  opacity: 0.8;
   cursor: pointer;
-}
-
-a:hover a,
-span:hover {
-  text-decoration: underline;
 }
 
 .App-logo {

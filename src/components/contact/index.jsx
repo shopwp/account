@@ -271,7 +271,10 @@ function Contact() {
             </p>
             <p>
               Also be sure to look through our extensive{' '}
-              <a href='https://docs.wpshop.io/#/getting-started/common-issues' target='_blank'>
+              <a
+                href='https://docs.wpshop.io/#/getting-started/common-issues'
+                target='_blank'
+                rel='noreferrer'>
                 plugin documentation
               </a>
               .
@@ -282,13 +285,13 @@ function Contact() {
             <h3>Free support</h3>
             <p>
               All plugin questions can be directed to the official{' '}
-              <a href='https://wordpress.org/plugins/wpshopify' target='_blank'>
+              <a href='https://wordpress.org/plugins/wpshopify' target='_blank' rel='noreferrer'>
                 plugin forums
               </a>
               . Simply open a support request and we'll usually respond within a 1-3 days.
             </p>
             You can also email us at:{' '}
-            <a href='mailto:hello@wpshop.io' target='_blank'>
+            <a href='mailto:hello@wpshop.io' target='_blank' rel='noreferrer'>
               hello@wpshop.io
             </a>
           </div>

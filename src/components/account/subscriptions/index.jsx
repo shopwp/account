@@ -1,6 +1,6 @@
 import { css } from '@emotion/react/macro';
 import AccountBodyHeader from '../body/header';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { AccountContext } from '../_state/context';
 import AccountBodyContent from '../body/content';
 import Table from '../../_common/tables';
@@ -13,10 +13,9 @@ import Td from '../../_common/tables/body/td';
 import prettyDate from '../../_common/date';
 import { StatusCSS } from '../../_common/styles';
 import { ContentLoaderBullet } from '../../_common/content-loaders';
+import React from 'react';
 
 function Subscription({ subscription }) {
-  console.log('<Subscription>', subscription);
-
   function prettyGateway(gateway) {
     if (gateway === 'stripe') {
       return 'Credit card';
@@ -24,6 +23,13 @@ function Subscription({ subscription }) {
 
     return 'PayPal';
   }
+
+  const LastFourCSS = css`
+    margin-left: 6px;
+    font-size: 87%;
+    position: relative;
+    top: -1px;
+  `;
 
   return (
     <tr>
@@ -35,7 +41,13 @@ function Subscription({ subscription }) {
       </Td>
       <Td extraCSS={StatusCSS(subscription.status)}>{subscription.status}</Td>
       <Td>{prettyDate(subscription.expiration)}</Td>
-      <Td>{prettyGateway(subscription.gateway)}</Td>
+      <Td>
+        {prettyGateway(subscription.gateway)}
+
+        {subscription.card_info && (
+          <span css={LastFourCSS}> •••• {subscription.card_info.last4}</span>
+        )}
+      </Td>
 
       <Td>
         <SubscriptionActionLinks subscription={subscription} />
@@ -51,6 +63,7 @@ function SubscriptionActionLinks({ subscription }) {
     e.preventDefault();
 
     accountDispatch({ type: 'SET_ACTIVE_MODAL_VIEW', payload: 'paymentUpdate' });
+    accountDispatch({ type: 'SET_ACTIVE_SUBSCRIPTION', payload: subscription });
     accountDispatch({ type: 'TOGGLE_MODAL', payload: true });
   }
 
@@ -167,7 +180,7 @@ function AccountSubscriptions() {
   `;
 
   return (
-    <div>
+    <>
       <AccountBodyHeader heading='Subscriptions' />
 
       <AccountBodyContent>
@@ -190,7 +203,7 @@ function AccountSubscriptions() {
           <ContentLoaderBullet />
         )}
       </AccountBodyContent>
-    </div>
+    </>
   );
 }
 

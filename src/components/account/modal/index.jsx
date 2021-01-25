@@ -34,7 +34,12 @@ function AccountModal() {
   function setModalContent() {
     switch (accountState.activeModalView) {
       case 'paymentUpdate':
-        return <ModalContentPaymentUpdate />;
+        return (
+          <ModalContentPaymentUpdate
+            accountState={accountState}
+            accountDispatch={accountDispatch}
+          />
+        );
 
       case 'subscriptionCancel':
         return (

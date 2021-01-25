@@ -10,7 +10,7 @@ import AccountAffiliate from '../affiliate';
 import { AccountContext } from '../_state/context';
 import { useContext } from 'react';
 
-function Body() {
+function Body({ children }) {
   const [accountState] = useContext(AccountContext);
 
   const BodyCSS = css`
@@ -50,7 +50,7 @@ function Body() {
   return (
     <main css={BodyCSS}>
       <AccountHeader />
-      <div css={BodyInnerCSS}>{renderSwitch(accountState.activePage)}</div>
+      <div css={BodyInnerCSS}>{children}</div>
     </main>
   );
 }

@@ -11,6 +11,7 @@ import Td from '../../_common/tables/body/td';
 import ButtonLink from '../../_common/button-link';
 import { IconDownload } from '../../_common/icons';
 import { ContentLoaderBullet } from '../../_common/content-loaders';
+import React from 'react';
 
 function Download({ download }) {
   return (
@@ -61,7 +62,7 @@ function AccountDownloads() {
   const [accountState] = useContext(AccountContext);
 
   return (
-    <div>
+    <>
       <AccountBodyHeader heading='Downloads' />
       <AccountBodyContent>
         {accountState.customer ? (
@@ -70,7 +71,7 @@ function AccountDownloads() {
           <ContentLoaderBullet />
         )}
       </AccountBodyContent>
-    </div>
+    </>
   );
 }
 

@@ -2,7 +2,7 @@ import { css, keyframes } from '@emotion/react/macro';
 import { IconWarning, IconError, IconInfo, IconSuccess } from './icons';
 import React from 'react';
 
-function Notice({ children, type, global = false }) {
+function Notice({ children, type, global = false, multiLine }) {
   const fadeIn = keyframes`
       0% {
          opacity: 0;
@@ -22,8 +22,8 @@ function Notice({ children, type, global = false }) {
       : type === 'warning'
       ? '#ffedcd'
       : '#eff7ff'};
-    padding: 12px 20px 13px 40px;
-    line-height: 1;
+    padding: 12px 20px 13px 43px;
+    line-height: ${multiLine ? 1.4 : 1};
     border-radius: 4px;
     font-size: 15px;
     color: black;
@@ -53,7 +53,7 @@ function Notice({ children, type, global = false }) {
     svg {
       position: absolute;
       left: 14px;
-      top: 11px;
+      top: ${multiLine ? '15px' : '11px'};
       width: 18px;
       height: 18px;
       display: inline-block;

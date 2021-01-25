@@ -1,16 +1,22 @@
-import { css } from '@emotion/react/macro';
 import AccountBodyHeader from '../body/header';
 import AccountBodyContent from '../body/content';
+import Notice from '../../_common/notice';
+import React from 'react';
 
 function AccountAffiliate() {
   return (
-    <div>
+    <>
       <AccountBodyHeader heading='Affiliate' />
       <AccountBodyContent>
-        Coming soon! In the meantime, please send an email to{' '}
-        <a href='mailto:hello@wpshop.io'>hello@wpshop.io</a> with any questions you may have.
+        <Notice type='info'>
+          Coming soon! Please send an email to{' '}
+          <a href='mailto:hello@wpshop.io' target='_blank' rel='noreferrer'>
+            hello@wpshop.io
+          </a>{' '}
+          with any questions you may have about your affiliate account.
+        </Notice>
       </AccountBodyContent>
-    </div>
+    </>
   );
 }
 

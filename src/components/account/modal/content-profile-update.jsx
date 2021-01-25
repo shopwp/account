@@ -177,7 +177,7 @@ function ModalContentProfileUpdate({ accountState, accountDispatch }) {
           />
         </InputGroup>
 
-        <Button size='small' text='Save changes' onClick={onSave} disabled={isBusy} />
+        <Button size='small' text='Update Profile' onClick={onSave} disabled={isBusy} />
 
         {formNotice && <Notice type={formNotice.type}>{formNotice.message}</Notice>}
       </ModalBody>

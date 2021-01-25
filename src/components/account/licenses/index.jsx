@@ -15,12 +15,13 @@ import { deactivateLicense } from '../../_common/api.jsx';
 import copy from 'clipboard-copy';
 import to from 'await-to-js';
 import { ContentLoaderBullet } from '../../_common/content-loaders';
+import React from 'react';
 
 function AccountLicenses() {
   const [accountState] = useContext(AccountContext);
 
   return (
-    <div>
+    <>
       <AccountBodyHeader heading='Licenses' />
 
       <AccountBodyContent>
@@ -30,7 +31,7 @@ function AccountLicenses() {
           <ContentLoaderBullet />
         )}
       </AccountBodyContent>
-    </div>
+    </>
   );
 }
 
@@ -57,7 +58,7 @@ function License({ license }) {
     position: relative;
     text-align: center;
     top: 0;
-    border: 1px solid #c7c7c7;
+    border: 1px solid #868585;
     transition: all 0.2s ease;
 
     &:focus {

@@ -1,24 +1,13 @@
 import { css } from '@emotion/react/macro';
 
-function Input({
-  type = 'text',
-  placeholder = '',
-  val = '',
-  onChange,
-  icon = false,
-  disabled = false,
-  label = false,
-  extraCSS = false,
-  pattern = false,
-  autocomplete = 'on',
-}) {
+function Select({ children, onChange, disabled = false, label = false }) {
   const inputStyles = css`
-    width: calc(100% - 26px);
+    width: 100%;
     display: block;
     padding: 8px 13px;
     font-size: 16px;
     border: 1px solid #868585;
-    margin-bottom: 15px;
+    margin-bottom: 0;
     border-radius: 5px;
 
     &[disabled] {
@@ -61,20 +50,11 @@ function Input({
   return (
     <div css={inputWrapperCSS}>
       {label && <label>{label}</label>}
-      <input
-        css={[inputStyles, extraCSS]}
-        type={type}
-        placeholder={placeholder}
-        value={val}
-        onChange={onChange}
-        disabled={disabled}
-        pattern={pattern ? pattern : undefined}
-        autoComplete={autocomplete}
-      />
-
-      {icon && icon}
+      <select css={inputStyles} onChange={onChange} disabled={disabled}>
+        {children}
+      </select>
     </div>
   );
 }
 
-export default Input;
+export default Select;

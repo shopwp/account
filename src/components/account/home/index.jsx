@@ -14,12 +14,13 @@ import prettyDate from '../../_common/date';
 import Button from '../../_common/button';
 import { IconEdit, IconExternal } from '../../_common/icons';
 import { ContentLoaderBullet } from '../../_common/content-loaders';
+import React from 'react';
 
 function AccountHome() {
   const [accountState, accountDispatch] = useContext(AccountContext);
 
   return (
-    <div>
+    <>
       <AccountBodyHeader heading='Dashboard' />
 
       <AccountBodyContent>
@@ -32,7 +33,7 @@ function AccountHome() {
           <ContentLoaderBullet />
         )}
       </AccountBodyContent>
-    </div>
+    </>
   );
 }
 
