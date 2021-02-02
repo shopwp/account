@@ -1,4 +1,4 @@
-import { jsx, css } from '@emotion/react/macro';
+import { css } from '@emotion/react/macro';
 import Loader from 'react-loaders';
 import 'loaders.css/src/animations/ball-pulse.scss';
 

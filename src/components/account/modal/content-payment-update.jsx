@@ -8,7 +8,6 @@ import Notice from '../../_common/notice';
 import { useState, useRef } from 'react';
 import { updatePaymentMethod } from '../../_common/api';
 import to from 'await-to-js';
-import parse from 'html-react-parser';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import CreditCardInput from 'react-credit-card-input';
 

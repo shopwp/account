@@ -4,7 +4,7 @@ import { AccountContext } from '../_state/context';
 import { useContext } from 'react';
 
 function ModalHeader({ text }) {
-  const [accountState, accountDispatch] = useContext(AccountContext);
+  const [, accountDispatch] = useContext(AccountContext);
 
   function onModalClose(e) {
     e.preventDefault();

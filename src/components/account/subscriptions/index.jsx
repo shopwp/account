@@ -61,13 +61,13 @@ function Subscription({ subscription }) {
 function SubscriptionActionLinks({ subscription }) {
   const [, accountDispatch] = useContext(AccountContext);
 
-  function openPaymentUpdateModal(e) {
-    e.preventDefault();
+  //   function openPaymentUpdateModal(e) {
+  //     e.preventDefault();
 
-    accountDispatch({ type: 'SET_ACTIVE_MODAL_VIEW', payload: 'paymentUpdate' });
-    accountDispatch({ type: 'SET_ACTIVE_SUBSCRIPTION', payload: subscription });
-    accountDispatch({ type: 'TOGGLE_MODAL', payload: true });
-  }
+  //     accountDispatch({ type: 'SET_ACTIVE_MODAL_VIEW', payload: 'paymentUpdate' });
+  //     accountDispatch({ type: 'SET_ACTIVE_SUBSCRIPTION', payload: subscription });
+  //     accountDispatch({ type: 'TOGGLE_MODAL', payload: true });
+  //   }
 
   function openSubscriptionCancelModal(e) {
     e.preventDefault();

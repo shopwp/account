@@ -1,4 +1,4 @@
-import { jsx, css } from '@emotion/react/macro';
+import { css } from '@emotion/react/macro';
 
 const ButtonCSS = css`
   padding: 0.6em 1.5em 0.7em;

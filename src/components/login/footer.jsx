@@ -1,4 +1,4 @@
-import { jsx, css } from '@emotion/react/macro';
+import { css } from '@emotion/react/macro';
 import Logo from '../_common/logo';
 
 function LoginFooter() {

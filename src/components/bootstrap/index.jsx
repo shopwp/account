@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Account from '../account';
 import Login from '../login';
 import LoginForm from '../login/form';
@@ -36,7 +36,7 @@ function Bootstrap() {
       type: 'SET_ACTIVE_PAGE',
       payload: getActivePage(window.location.pathname),
     });
-  }, [accountState.isAuthed]);
+  }, [accountState.isAuthed, accountDispatch]);
 
   return (
     <BrowserRouter>
