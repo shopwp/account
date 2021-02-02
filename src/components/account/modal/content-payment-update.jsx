@@ -3,72 +3,79 @@ import ModalHeader from './header';
 import ModalBody from './body';
 import Button from '../../_common/button';
 import Input from '../../_common/forms/input';
-import Select from '../../_common/forms/select';
 import InputGroup from '../../_common/forms/input-group';
 import Notice from '../../_common/notice';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { updatePaymentMethod } from '../../_common/api';
 import to from 'await-to-js';
+import parse from 'html-react-parser';
+import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
+import CreditCardInput from 'react-credit-card-input';
+
+function MissingNotice() {
+  const MissingCSS = css`
+    margin: 10px 0 0 0;
+    color: #ff3860;
+    font-weight: normal !important;
+    font-size: 15px;
+  `;
+
+  return <p css={MissingCSS}>This field is required</p>;
+}
 
 function ModalContentPaymentUpdate({ accountState, accountDispatch }) {
   const [isBusy, setIsBusy] = useState(false);
   const [cardNumber, setCardNumber] = useState('');
   const [cvc, setCVC] = useState('');
-  const [nameOnCard, setNameOnCard] = useState(accountState.subscription.card_info.name);
-  const [monthExp, setMonthExp] = useState('');
-  const [yearExp, setYearExp] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const ccEl = useRef(false);
+  const nameOnCardEl = useRef(false);
+  const addressLine1El = useRef(false);
+  const cityEl = useRef(false);
+  const zipEl = useRef(false);
+  const countryEl = useRef(false);
+  const regionEl = useRef(false);
+  const [hasEmptyCountry, setHasEmptyCountry] = useState(false);
+  const [hasEmptyRegion, setHasEmptyRegion] = useState(false);
 
-  const selectInlineCSS = css`
-    display: flex;
+  const [nameOnCard, setNameOnCard] = useState(() =>
+    accountState.subscription.card_info.name ? accountState.subscription.card_info.name : ''
+  );
 
-    > div {
-      margin-right: 10px;
-    }
-  `;
+  const [addressLine1, setAddressLine1] = useState(() =>
+    accountState.subscription.card_info.billing_details.address.line1
+      ? accountState.subscription.card_info.billing_details.address.line1
+      : ''
+  );
+  const [addressLine2, setAddressLine2] = useState(() =>
+    accountState.subscription.card_info.billing_details.address.line2
+      ? accountState.subscription.card_info.billing_details.address.line2
+      : ''
+  );
 
-  const ExpDividerCSS = css`
-    display: block;
-    margin: 0 10px 0 4px;
-    font-size: 22px;
-  `;
+  const [city, setCity] = useState(() =>
+    accountState.subscription.card_info.billing_details.address.city
+      ? accountState.subscription.card_info.billing_details.address.city
+      : ''
+  );
 
-  const SecurityCodeCSS = css`
-    max-width: 50px;
-  `;
+  const [zip, setZip] = useState(() =>
+    accountState.subscription.card_info.billing_details.address.postal_code
+      ? accountState.subscription.card_info.billing_details.address.postal_code
+      : ''
+  );
 
-  async function onUpdate() {
-    setIsBusy(true);
-    console.log('on payment update!', accountState.subscription);
-    const [error, resp] = await to(
-      updatePaymentMethod({ subscription: accountState.subscription })
-    );
-    setIsBusy(false);
+  const [country, setCountry] = useState(() =>
+    accountState.subscription.card_info.billing_details.address.country
+      ? accountState.subscription.card_info.billing_details.address.country
+      : ''
+  );
 
-    console.log('error', error);
-    console.log('resp', resp);
-
-    //  accountDispatch({
-    //    type: 'SET_SUBSCRIPTIONS',
-    //    payload: resp,
-    //  });
-
-    //  accountDispatch({ type: 'TOGGLE_MODAL', payload: false });
-
-    //  accountDispatch({
-    //    type: 'SET_NOTICE',
-    //    payload: {
-    //      message: 'Successfully canceled subscription to ' + parse(accountState.subscription.name),
-    //      type: 'success',
-    //    },
-    //  });
-
-    //  setTimeout(function () {
-    //    accountDispatch({
-    //      type: 'SET_NOTICE',
-    //      payload: false,
-    //    });
-    //  }, 5500);
-  }
+  const [region, setRegion] = useState(() =>
+    accountState.subscription.card_info.billing_details.address.state
+      ? accountState.subscription.card_info.billing_details.address.state
+      : ''
+  );
 
   function onCardNumberChange(e) {
     setCardNumber(e.target.value);
@@ -78,89 +85,305 @@ function ModalContentPaymentUpdate({ accountState, accountDispatch }) {
     setCVC(e.target.value);
   }
 
-  function nameOnCardChange(e) {
-    setNameOnCard(e.target.value);
+  function onExpiryChange(e) {
+    setExpiry(e.target.value);
   }
 
-  function onMonthExpirationChange(e) {
-    console.log('onMonthExpirationChange ', e.target.value);
+  function hasMissingRequiredFields() {
+    if (
+      !cvc ||
+      !expiry ||
+      !nameOnCard ||
+      !cardNumber ||
+      !region ||
+      !country ||
+      !zip ||
+      !city ||
+      !addressLine1
+    ) {
+      console.log('hasMissingRequiredFields');
+
+      return true;
+    }
+    console.log('DOES NOT hasMissingRequiredFields');
+    return false;
   }
 
-  function onYearExpirationChange(e) {
-    console.log('onYearExpirationChange ', e.target.value);
+  function highlightMissingFields() {
+    if (!expiry || !cvc || !cardNumber) {
+      console.log('highlighting credit card fields', ccEl);
+      ccEl.current.cardNumberField.focus();
+      ccEl.current.cardNumberField.blur();
+    }
+
+    if (!nameOnCard) {
+      console.log('highlighting nameOnCard', nameOnCardEl);
+      nameOnCardEl.current.focus();
+      nameOnCardEl.current.blur();
+    }
+    console.log('region', region);
+
+    if (!region) {
+      setHasEmptyRegion(true);
+    } else {
+      setHasEmptyRegion(false);
+    }
+
+    if (!country) {
+      setHasEmptyCountry(true);
+    } else {
+      setHasEmptyCountry(false);
+    }
+
+    if (!zip) {
+      console.log('highlighting zip', zipEl);
+      zipEl.current.focus();
+      zipEl.current.blur();
+    }
+
+    if (!city) {
+      console.log('highlighting city', cityEl);
+      cityEl.current.focus();
+      cityEl.current.blur();
+    }
+
+    if (!addressLine1) {
+      console.log('highlighting addressLine1', addressLine1El);
+      addressLine1El.current.focus();
+      addressLine1El.current.blur();
+    }
   }
+
+  function formatExpiry(expiry) {
+    var split = expiry.split('/');
+    var monthExp = split[0].replace(/\s/g, '');
+    var yearExp = split[1].replace(/\s/g, '');
+
+    return [monthExp, yearExp];
+  }
+
+  async function onUpdate() {
+    if (hasMissingRequiredFields()) {
+      highlightMissingFields();
+      return;
+    }
+
+    setIsBusy(true);
+    console.log('on payment update!', accountState.subscription);
+    console.log('expiry', expiry);
+    console.log('ccEl', ccEl.current.cardNumberField);
+
+    const [monthExp, yearExp] = formatExpiry(expiry);
+
+    console.log('monthExp', monthExp);
+    console.log('yearExp', yearExp);
+
+    const [error, resp] = await to(
+      updatePaymentMethod({
+        subscription: accountState.subscription,
+        monthExp: monthExp,
+        yearExp: yearExp,
+        nameOnCard: nameOnCard,
+        cvc: cvc,
+        cardNumber: cardNumber,
+        region: region,
+        country: country,
+        zip: zip,
+        city: city,
+        addressLine1: addressLine1,
+        addressLine2: addressLine2,
+      })
+    );
+    setIsBusy(false);
+
+    if (error) {
+      console.log('Handle update payment method errrrrors');
+      return;
+    }
+
+    console.log('error', error);
+    console.log('resp', resp);
+
+    //  accountDispatch({
+    //    type: 'SET_SUBSCRIPTIONS',
+    //    payload: resp,
+    //  });
+
+    accountDispatch({ type: 'TOGGLE_MODAL', payload: false });
+
+    accountDispatch({
+      type: 'SET_NOTICE',
+      payload: {
+        message: 'Successfully updated payment method',
+        type: 'success',
+      },
+    });
+
+    setTimeout(function () {
+      accountDispatch({
+        type: 'SET_NOTICE',
+        payload: false,
+      });
+    }, 5500);
+
+    return;
+  }
+
+  const selectInlineCSS = css`
+    display: flex;
+
+    > div {
+      margin-right: 10px;
+      width: 50%;
+    }
+  `;
+
+  const SelectParentCSS = css`
+    select {
+      width: 100%;
+      display: block;
+      padding: 8px 13px;
+      font-size: 16px;
+      border: 1px solid #868585;
+      margin-bottom: 0;
+      border-radius: 5px;
+    }
+  `;
+
+  const CreditCardParentCSS = css`
+    opacity: ${isBusy ? 0.5 : 1};
+    background: ${isBusy ? '#f4f4f4' : 'none'};
+
+    &:hover {
+      cursor: ${isBusy ? 'not-allowed' : 'text'};
+
+      input,
+      label {
+        cursor: ${isBusy ? 'not-allowed' : 'text'};
+      }
+    }
+
+    > div {
+      width: 100%;
+      margin-bottom: 0;
+    }
+
+    .input + p {
+      font-weight: normal;
+    }
+
+    div + p {
+      margin-top: 8px;
+    }
+
+    #field-wrapper {
+      border: 1px solid #868585;
+    }
+  `;
 
   return (
     <div>
       <ModalHeader text='Update payment method' />
       <ModalBody>
         <Notice type='info' multiLine={true}>
-          You will be replacing your current credit card on file (••••{' '}
-          {accountState.subscription.card_info.last4}) with a new one below. You will not be charged
-          for updating the payment method.
+          You will be replacing your current credit card (••••{' '}
+          {accountState.subscription.card_info.last4}) with a new one below. You will not be
+          charged.
         </Notice>
+
         <InputGroup>
           <p>Name on Card:</p>
-          <Input val={nameOnCard} onChange={nameOnCardChange} disabled={isBusy} />
-        </InputGroup>
-
-        <InputGroup>
-          <p>Card Number:</p>
           <Input
-            placeholder='4242 4242 4242 4242'
-            val={cardNumber}
-            onChange={onCardNumberChange}
+            inputRef={nameOnCardEl}
+            val={nameOnCard}
+            onChange={(e) => setNameOnCard(e.target.value)}
             disabled={isBusy}
-            type='tel'
-            pattern='^[0-9!@#$%^&* ]*$'
-            autocomplete='off'
+            required={true}
           />
         </InputGroup>
 
         <InputGroup>
-          <p>Security Code:</p>
-          <Input
-            extraCSS={SecurityCodeCSS}
-            placeholder='123'
-            val={cvc}
-            onChange={onCVCChange}
-            disabled={isBusy}
-            type='tel'
-            pattern='[0-9]{3,4}'
-          />
+          <p>Card Details:</p>
+          <div css={CreditCardParentCSS}>
+            <CreditCardInput
+              ref={ccEl}
+              cardNumberInputProps={{ value: cardNumber, onChange: onCardNumberChange }}
+              cardExpiryInputProps={{ value: expiry, onChange: onExpiryChange }}
+              cardCVCInputProps={{ value: cvc, onChange: onCVCChange }}
+              fieldClassName='input'
+            />
+          </div>
         </InputGroup>
 
         <InputGroup>
-          <p>Expiration Date:</p>
+          <p>Billing Address:</p>
+          <Input
+            inputRef={addressLine1El}
+            val={addressLine1}
+            onChange={(e) => setAddressLine1(e.target.value)}
+            disabled={isBusy}
+            required={true}
+          />
+
+          <p>Billing Address Line 2:</p>
+          <Input
+            val={addressLine2}
+            onChange={(e) => setAddressLine2(e.target.value)}
+            disabled={isBusy}
+          />
+
           <div css={selectInlineCSS}>
-            <Select onChange={onMonthExpirationChange} disabled={isBusy} val={monthExp}>
-              <option value=''>MM</option>
-              <option value='01'>01 - January</option>
-              <option value='02'>02 - February</option>
-              <option value='03'>03 - March</option>
-              <option value='04'>04 - April</option>
-              <option value='05'>05 - May</option>
-              <option value='06'>06 - June</option>
-              <option value='07'>07 - July</option>
-              <option value='08'>08 - August</option>
-              <option value='09'>09 - September</option>
-              <option value='10'>10 - October</option>
-              <option value='11'>11 - November</option>
-              <option value='12'>12 - December</option>
-            </Select>
-            <span css={ExpDividerCSS}>/</span>
-            <Select onChange={onYearExpirationChange} disabled={isBusy} val={yearExp}>
-              <option value=''>YY</option>
-              <option value='21'>21</option>
-              <option value='22'>22</option>
-              <option value='23'>23</option>
-              <option value='24'>24</option>
-              <option value='25'>25</option>
-              <option value='26'>26</option>
-              <option value='27'>27</option>
-              <option value='28'>28</option>
-              <option value='29'>29</option>
-            </Select>
+            <div>
+              <p>Billing City:</p>
+              <Input
+                inputRef={cityEl}
+                val={city}
+                onChange={(e) => setCity(e.target.value)}
+                disabled={isBusy}
+                required={true}
+              />
+            </div>
+            <div>
+              <p>Billing Zip / Postal Code:</p>
+              <Input
+                inputRef={zipEl}
+                val={zip}
+                onChange={(e) => setZip(e.target.value)}
+                disabled={isBusy}
+                required={true}
+              />
+            </div>
+          </div>
+
+          <div css={selectInlineCSS}>
+            <div css={SelectParentCSS} ref={countryEl}>
+              <p>Billing Country:</p>
+              <CountryDropdown
+                value={country}
+                onChange={(val) => {
+                  setHasEmptyCountry(false);
+                  setCountry(val);
+                }}
+                disabled={isBusy}
+                valueType='short'
+              />
+              {hasEmptyCountry && <MissingNotice />}
+            </div>
+            <div css={SelectParentCSS} ref={regionEl}>
+              <p>Billing State / Province:</p>
+              <RegionDropdown
+                country={country}
+                value={region}
+                onChange={(val) => {
+                  setHasEmptyRegion(false);
+                  setRegion(val);
+                }}
+                disabled={isBusy}
+                countryValueType='short'
+                valueType='short'
+              />
+              {hasEmptyRegion && <MissingNotice />}
+            </div>
           </div>
         </InputGroup>
 

@@ -2,7 +2,7 @@ import { css, keyframes } from '@emotion/react/macro';
 import { IconWarning, IconError, IconInfo, IconSuccess } from './icons';
 import React from 'react';
 
-function Notice({ children, type, global = false, multiLine }) {
+function Notice({ children, type, global = false, multiLine = false }) {
   const fadeIn = keyframes`
       0% {
          opacity: 0;
@@ -13,6 +13,11 @@ function Notice({ children, type, global = false, multiLine }) {
   `;
 
   const NoticeCSS = css`
+    width: auto;
+    max-width: ${global ? '560px' : '100%'};
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: ${type === 'success'
       ? '#c1ffdd'
       : type === 'info'
@@ -22,16 +27,15 @@ function Notice({ children, type, global = false, multiLine }) {
       : type === 'warning'
       ? '#ffedcd'
       : '#eff7ff'};
-    padding: 12px 20px 13px 43px;
+    padding: 12px 20px;
     line-height: ${multiLine ? 1.4 : 1};
     border-radius: 4px;
     font-size: 15px;
     color: black;
-    display: inline-block;
     font-size: 15px;
     border: 1px solid
       ${type === 'success'
-        ? '#98e3ba'
+        ? '#7acea0'
         : type === 'info'
         ? '#bfcdff'
         : type === 'error'
@@ -51,12 +55,12 @@ function Notice({ children, type, global = false, multiLine }) {
     }
 
     svg {
-      position: absolute;
-      left: 14px;
-      top: ${multiLine ? '15px' : '11px'};
       width: 18px;
       height: 18px;
       display: inline-block;
+      margin-right: 8px;
+      position: relative;
+      top: 1px;
     }
   `;
 

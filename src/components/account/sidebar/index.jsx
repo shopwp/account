@@ -6,7 +6,6 @@ function Sidebar() {
   const NavCSS = css`
     display: flex;
     width: 240px;
-    height: 100vh;
     align-items: flex-start;
     background: white;
     flex-direction: column;

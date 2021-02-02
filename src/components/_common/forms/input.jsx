@@ -1,4 +1,5 @@
 import { css } from '@emotion/react/macro';
+import { useState } from 'react';
 
 function Input({
   type = 'text',
@@ -11,7 +12,15 @@ function Input({
   extraCSS = false,
   pattern = false,
   autocomplete = 'on',
+  required = false,
+  inputRef = null,
 }) {
+  const [touched, setTouched] = useState(false);
+
+  function onFocus(e) {
+    setTouched(true);
+  }
+
   const inputStyles = css`
     width: calc(100% - 26px);
     display: block;
@@ -67,14 +76,29 @@ function Input({
         placeholder={placeholder}
         value={val}
         onChange={onChange}
+        onFocus={onFocus}
         disabled={disabled}
         pattern={pattern ? pattern : undefined}
         autoComplete={autocomplete}
+        ref={inputRef}
       />
 
       {icon && icon}
+
+      {!val && touched && required && <MissingNotice />}
     </div>
   );
+}
+
+function MissingNotice() {
+  const MissingCSS = css`
+    margin: -10px 0 0 0;
+    color: #ff3860;
+    font-weight: normal !important;
+    font-size: 15px;
+  `;
+
+  return <p css={MissingCSS}>This field is required</p>;
 }
 
 export default Input;

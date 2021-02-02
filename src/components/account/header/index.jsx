@@ -19,10 +19,14 @@ function AccountIcon({ avatar }) {
     height: 30px;
   `;
 
-  return avatar ? (
-    <img src={avatar} css={AccountIconCSS} />
+  return avatar.includes('gravatar') === false ? (
+    <img src={avatar} css={AccountIconCSS} alt='Profile avatar' />
   ) : (
-    <svg width='30' height='30' data-jdenticon-value='wps' css={AccountIconCSS}></svg>
+    <img
+      src={process.env.PUBLIC_URL + '/img/avatar.svg'}
+      css={AccountIconCSS}
+      alt='Profile avatar'
+    />
   );
 }
 
@@ -129,7 +133,7 @@ function AccountDropdownPage({ page }) {
 }
 
 function AccountHeader() {
-  const [accountState, accountDispatch] = useContext(AccountContext);
+  const [accountState] = useContext(AccountContext);
 
   const ArrowCSS = css`
     width: 9px;
@@ -184,13 +188,14 @@ function AccountHeader() {
     }
   `;
 
-  function onClick() {
+  function onClick(e) {
+    e.preventDefault();
     console.log('on click');
   }
 
   return (
     <header css={AccountHeaderCSS}>
-      {accountState.customer ? (
+      {accountState.customer.info ? (
         <Tippy
           content={<AccountHeaderDropdown />}
           allowHTML={true}

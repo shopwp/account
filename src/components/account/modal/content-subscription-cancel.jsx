@@ -47,12 +47,12 @@ function ModalContentSubscriptionCancel({ accountState, accountDispatch }) {
       },
     });
 
-    setTimeout(function () {
-      accountDispatch({
-        type: 'SET_NOTICE',
-        payload: false,
-      });
-    }, 5500);
+    //  setTimeout(function () {
+    //    accountDispatch({
+    //      type: 'SET_NOTICE',
+    //      payload: false,
+    //    });
+    //  }, 5500);
   }
 
   return (

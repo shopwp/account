@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 
 function NavLinksSecondary() {
   const NavLinksSecondaryCSS = css`
-    margin-top: 10px;
+    margin-top: 0;
     border-top: 1px solid #e3e8ee;
     padding-top: 10px;
 
@@ -72,6 +72,8 @@ function NavLink({ link }) {
   const [accountState, accountDispatch] = useContext(AccountContext);
 
   const NavLinkCSS = css`
+    margin: 0;
+
     a {
       text-decoration: none;
       color: ${link.title === accountState.activePage ? '#415aff' : '#0f0728'};
@@ -81,6 +83,12 @@ function NavLink({ link }) {
       font-weight: 600;
       text-transform: capitalize;
       margin: 0;
+      width: calc(100% - 75px);
+      display: block;
+
+      &:hover {
+        color: #415aff;
+      }
     }
 
     svg {

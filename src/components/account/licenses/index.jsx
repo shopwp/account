@@ -399,6 +399,18 @@ function LicenseSites({ license, setSiteCount }) {
     padding: 0;
   `;
 
+  const NoticeWrapperCSS = css`
+    max-width: 640px;
+
+    svg {
+      top: 0;
+    }
+
+    a {
+      margin-left: 5px;
+    }
+  `;
+
   return sites.length ? (
     <ul css={LicenseSitesCSS}>
       {sites.map((site) => (
@@ -413,16 +425,18 @@ function LicenseSites({ license, setSiteCount }) {
       ))}
     </ul>
   ) : (
-    <Notice type='info'>
-      No sites activated yet. Learn how to{' '}
-      <a
-        href='https://docs.wpshop.io/#/guides/upgrading-to-pro?id=_7-enable-updates'
-        target='_blank'
-        rel='noreferrer'>
-        activate your site
-      </a>
-      .
-    </Notice>
+    <div css={NoticeWrapperCSS}>
+      <Notice type='info'>
+        Your license key is not activated on any sites yet. Learn how to{' '}
+        <a
+          href='https://docs.wpshop.io/#/guides/upgrading-to-pro?id=_7-enable-updates'
+          target='_blank'
+          rel='noreferrer'>
+          activate your site
+        </a>
+        .
+      </Notice>
+    </div>
   );
 }
 

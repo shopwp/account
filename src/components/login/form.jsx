@@ -15,6 +15,13 @@ function LoginForm() {
         type: 'success',
         message: "You've been logged out successfully.",
       };
+    } else if (window.location.search.includes('logout=api_error')) {
+      return {
+        type: 'error',
+        multiLine: true,
+        message:
+          'Error: Unable to connect to the WP Shopify account system. Please try again later or contact us directly.',
+      };
     } else {
       return false;
     }
@@ -152,7 +159,7 @@ function LoginForm() {
   return (
     <div css={LoginFormWrapperCSS}>
       {notice && (
-        <Notice type='success' global={true}>
+        <Notice type={notice.type} global={true} multiLine={notice.multiLine}>
           {notice.message}
         </Notice>
       )}

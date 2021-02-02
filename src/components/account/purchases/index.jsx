@@ -10,13 +10,9 @@ import Th from '../../_common/tables/header/th';
 import Td from '../../_common/tables/body/td';
 import { ContentLoaderBullet } from '../../_common/content-loaders';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-function Purchase({ purchase, accountDispatch }) {
-  function onLicenseClick(e) {
-    e.preventDefault();
-
-    accountDispatch({ type: 'SET_ACTIVE_PAGE', payload: 'licenses' });
-  }
+function Purchase({ purchase }) {
   return (
     <tr>
       <Td>#{purchase.number}</Td>
@@ -30,17 +26,13 @@ function Purchase({ purchase, accountDispatch }) {
         </a>
       </Td>
       <Td>
-        <a href='#!' onClick={onLicenseClick}>
-          View license
-        </a>
+        <Link to='/licenses'>View license</Link>
       </Td>
     </tr>
   );
 }
 
 function Purchases({ purchases }) {
-  const [accountState, accountDispatch] = useContext(AccountContext);
-
   const PurchasesTableCSS = css`
     width: 100%;
     max-width: 100%;
@@ -59,7 +51,7 @@ function Purchases({ purchases }) {
       </TableHeader>
       <TableBody>
         {purchases.map((purchase) => (
-          <Purchase purchase={purchase} key={purchase.number} accountDispatch={accountDispatch} />
+          <Purchase purchase={purchase} key={purchase.number} />
         ))}
       </TableBody>
     </Table>
@@ -67,18 +59,7 @@ function Purchases({ purchases }) {
 }
 
 function AccountPurchases() {
-  const [accountState, accountDispatch] = useContext(AccountContext);
-
-  const SubscriptionActionCSS = css`
-    color: black;
-    padding: 4px 0;
-    display: block;
-    position: relative;
-
-    &:hover {
-      color: #415aff;
-    }
-  `;
+  const [accountState] = useContext(AccountContext);
 
   return (
     <>

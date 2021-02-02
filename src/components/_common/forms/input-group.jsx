@@ -12,6 +12,10 @@ function InputGroup({ children }) {
         font-weight: normal;
       }
     }
+
+    div + p {
+      margin-top: 25px;
+    }
   `;
 
   return <div css={InputGroupCSS}>{children}</div>;

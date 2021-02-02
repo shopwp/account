@@ -1,6 +1,6 @@
 import { css } from '@emotion/react/macro';
 
-function Select({ children, onChange, disabled = false, label = false }) {
+function Select({ children, onChange, disabled = false, label = false, defaultVal = false }) {
   const inputStyles = css`
     width: 100%;
     display: block;
@@ -50,7 +50,7 @@ function Select({ children, onChange, disabled = false, label = false }) {
   return (
     <div css={inputWrapperCSS}>
       {label && <label>{label}</label>}
-      <select css={inputStyles} onChange={onChange} disabled={disabled}>
+      <select css={inputStyles} onChange={onChange} disabled={disabled} defaultValue={defaultVal}>
         {children}
       </select>
     </div>

@@ -1,4 +1,4 @@
-import { jsx, css } from '@emotion/react/macro';
+import { css } from '@emotion/react/macro';
 import { ButtonCSS } from '../styles';
 
 function ButtonLink({ text, href, download = false, icon = false }) {

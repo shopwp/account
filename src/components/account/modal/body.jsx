@@ -2,7 +2,7 @@ import { css } from '@emotion/react/macro';
 
 function ModalBody({ children }) {
   const ModalBodyCSS = css`
-    padding: 15px 20px;
+    padding: 15px 20px 80px 20px;
     width: calc(100% - 40px);
   `;
 
