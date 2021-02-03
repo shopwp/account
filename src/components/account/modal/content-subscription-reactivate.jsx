@@ -25,7 +25,7 @@ function ModalContentSubscriptionReactivate({ accountState, accountDispatch }) {
 
   async function onReactivate() {
     setIsBusy(true);
-    console.log('on cancel!', accountState.subscription);
+
     const [error, resp] = await to(
       reactivateSubscription({ subscription: accountState.subscription })
     );
@@ -41,9 +41,6 @@ function ModalContentSubscriptionReactivate({ accountState, accountDispatch }) {
         type: 'success',
       },
     });
-
-    console.log('error', error);
-    console.log('resp', resp);
 
     accountDispatch({
       type: 'SET_SUBSCRIPTIONS',

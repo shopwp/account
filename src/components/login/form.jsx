@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { css } from '@emotion/react/macro';
 import Button from '../_common/button';
 import Notice from '../_common/notice';
+import { getApiDomain } from '../_common/api';
 import { Link } from 'react-router-dom';
 
 function LoginForm() {
@@ -31,7 +32,7 @@ function LoginForm() {
     setDisabled(true);
     setMessage(false);
 
-    const response = await fetch('https://wpshopify-web.loc/wp-json/jwt-auth/v1/token', {
+    const response = await fetch(getApiDomain() + '/wp-json/jwt-auth/v1/token', {
       body: JSON.stringify(creds),
       method: 'post',
       headers: {

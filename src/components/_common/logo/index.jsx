@@ -17,7 +17,7 @@ function Logo({ color, width, height }) {
   `;
 
   return (
-    <a css={LogoLink} href='/'>
+    <a css={LogoLink} href='https://wpshop.io'>
       <svg
         version='1.1'
         id='Layer_1'

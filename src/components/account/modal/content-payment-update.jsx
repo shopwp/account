@@ -100,27 +100,21 @@ function ModalContentPaymentUpdate({ accountState, accountDispatch }) {
       !city ||
       !addressLine1
     ) {
-      console.log('hasMissingRequiredFields');
-
       return true;
     }
-    console.log('DOES NOT hasMissingRequiredFields');
     return false;
   }
 
   function highlightMissingFields() {
     if (!expiry || !cvc || !cardNumber) {
-      console.log('highlighting credit card fields', ccEl);
       ccEl.current.cardNumberField.focus();
       ccEl.current.cardNumberField.blur();
     }
 
     if (!nameOnCard) {
-      console.log('highlighting nameOnCard', nameOnCardEl);
       nameOnCardEl.current.focus();
       nameOnCardEl.current.blur();
     }
-    console.log('region', region);
 
     if (!region) {
       setHasEmptyRegion(true);
@@ -135,19 +129,16 @@ function ModalContentPaymentUpdate({ accountState, accountDispatch }) {
     }
 
     if (!zip) {
-      console.log('highlighting zip', zipEl);
       zipEl.current.focus();
       zipEl.current.blur();
     }
 
     if (!city) {
-      console.log('highlighting city', cityEl);
       cityEl.current.focus();
       cityEl.current.blur();
     }
 
     if (!addressLine1) {
-      console.log('highlighting addressLine1', addressLine1El);
       addressLine1El.current.focus();
       addressLine1El.current.blur();
     }
@@ -168,14 +159,8 @@ function ModalContentPaymentUpdate({ accountState, accountDispatch }) {
     }
 
     setIsBusy(true);
-    console.log('on payment update!', accountState.subscription);
-    console.log('expiry', expiry);
-    console.log('ccEl', ccEl.current.cardNumberField);
 
     const [monthExp, yearExp] = formatExpiry(expiry);
-
-    console.log('monthExp', monthExp);
-    console.log('yearExp', yearExp);
 
     const [error, resp] = await to(
       updatePaymentMethod({
@@ -196,17 +181,8 @@ function ModalContentPaymentUpdate({ accountState, accountDispatch }) {
     setIsBusy(false);
 
     if (error) {
-      console.log('Handle update payment method errrrrors');
       return;
     }
-
-    console.log('error', error);
-    console.log('resp', resp);
-
-    //  accountDispatch({
-    //    type: 'SET_SUBSCRIPTIONS',
-    //    payload: resp,
-    //  });
 
     accountDispatch({ type: 'TOGGLE_MODAL', payload: false });
 

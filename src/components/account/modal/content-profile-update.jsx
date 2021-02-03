@@ -51,10 +51,6 @@ function ModalContentProfileUpdate({ accountState, accountDispatch }) {
 
     const [error, response] = await to(updateProfile(profileData));
 
-    console.log('saveProfile Error: ', error);
-    console.log('saveProfile response: ', response);
-    console.log('profileData', profileData);
-
     accountDispatch({
       type: 'UPDATE_CUSTOMER',
       payload: {

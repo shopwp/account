@@ -1,6 +1,14 @@
+function getApiDomain() {
+  if (window.location.host.includes('localhost')) {
+    return 'https://wpshopify-web.loc';
+  } else {
+    return 'https://wpshop.io';
+  }
+}
+
 async function deactivateLicense(data) {
   const token = JSON.parse(localStorage.getItem('wpshopify-account-auth-token'));
-  const apiURL = 'https://wpshopify-web.loc';
+  const apiURL = getApiDomain();
 
   const response = await fetch(apiURL + '/wp-json/customers/v1/deactivate_license', {
     body: JSON.stringify({
@@ -23,8 +31,9 @@ async function deactivateLicense(data) {
 
 async function updateProfile(data) {
   const token = JSON.parse(localStorage.getItem('wpshopify-account-auth-token'));
+  const apiURL = getApiDomain();
 
-  const response = await fetch('https://wpshopify-web.loc/wp-json/customers/v1/update/profile', {
+  const response = await fetch(apiURL + '/wp-json/customers/v1/update/profile', {
     body: JSON.stringify(data),
     method: 'post',
     headers: {
@@ -39,52 +48,64 @@ async function updateProfile(data) {
 
 async function cancelSubscription(data) {
   const token = JSON.parse(localStorage.getItem('wpshopify-account-auth-token'));
-  console.log('token', token);
+  const apiURL = getApiDomain();
 
   data.userId = token.userId;
 
-  const response = await fetch(
-    'https://wpshopify-web.loc/wp-json/customers/v1/subscription/cancel',
-    {
-      body: JSON.stringify(data),
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token.token,
-      },
-    }
-  );
+  const response = await fetch(apiURL + '/wp-json/customers/v1/subscription/cancel', {
+    body: JSON.stringify(data),
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token.token,
+    },
+  });
 
   return await response.json();
 }
 
 async function reactivateSubscription(data) {
   const token = JSON.parse(localStorage.getItem('wpshopify-account-auth-token'));
-  console.log('token', token);
+  const apiURL = getApiDomain();
 
   data.userId = token.userId;
 
-  const response = await fetch(
-    'https://wpshopify-web.loc/wp-json/customers/v1/subscription/reactivate',
-    {
-      body: JSON.stringify(data),
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token.token,
-      },
-    }
-  );
+  const response = await fetch(apiURL + '/wp-json/customers/v1/subscription/reactivate', {
+    body: JSON.stringify(data),
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token.token,
+    },
+  });
 
   return await response.json();
 }
 
 async function updatePaymentMethod(data) {
   const token = JSON.parse(localStorage.getItem('wpshopify-account-auth-token'));
+  const apiURL = getApiDomain();
 
-  const response = await fetch('https://wpshopify-web.loc/wp-json/customers/v1/update/payment', {
+  const response = await fetch(apiURL + '/wp-json/customers/v1/update/payment', {
+    body: JSON.stringify(data),
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token.token,
+    },
+  });
+
+  return await response.json();
+}
+
+async function loginUserToWordPress(data) {
+  const token = JSON.parse(localStorage.getItem('wpshopify-account-auth-token'));
+  const apiURL = getApiDomain();
+
+  const response = await fetch(apiURL + '/wp-json/customers/v1/login', {
     body: JSON.stringify(data),
     method: 'post',
     headers: {
@@ -103,4 +124,6 @@ export {
   deactivateLicense,
   cancelSubscription,
   reactivateSubscription,
+  loginUserToWordPress,
+  getApiDomain,
 };

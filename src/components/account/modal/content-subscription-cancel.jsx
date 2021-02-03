@@ -25,12 +25,9 @@ function ModalContentSubscriptionCancel({ accountState, accountDispatch }) {
 
   async function onCancel() {
     setIsBusy(true);
-    console.log('on cancel!', accountState.subscription);
+
     const [error, resp] = await to(cancelSubscription({ subscription: accountState.subscription }));
     setIsBusy(false);
-
-    console.log('error', error);
-    console.log('resp', resp);
 
     accountDispatch({
       type: 'SET_SUBSCRIPTIONS',

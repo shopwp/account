@@ -31,8 +31,6 @@ function Subscription({ subscription }) {
     top: -1px;
   `;
 
-  console.log('subscription :: ', subscription);
-
   return (
     <tr>
       <Td>

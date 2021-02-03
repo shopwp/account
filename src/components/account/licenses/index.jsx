@@ -337,9 +337,8 @@ function LicenseSite({ license, site, sites, setSites, setSiteCount }) {
   }
 
   async function deactivateLicenseKey() {
-    console.log('on deactivateLicenseKey');
-
     setIsBusy(true);
+
     const [error, response] = await to(
       deactivateLicense({
         key: license.key,
@@ -348,10 +347,8 @@ function LicenseSite({ license, site, sites, setSites, setSiteCount }) {
         itemId: license.download_id,
       })
     );
+
     setIsBusy(false);
-    console.log('error', error);
-    console.log('response', response);
-    console.log('sites', sites);
 
     if (!response.success) {
       console.error('Error removing site!');

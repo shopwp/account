@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { css } from '@emotion/react/macro';
 import Button from '../_common/button';
+import { getApiDomain } from '../_common/api';
 
 function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -19,7 +20,7 @@ function ForgotPassword() {
 
     setDisabled(true);
 
-    const response = await fetch('https://wpshopify-web.loc/wp-json/customers/v1/reset-password', {
+    const response = await fetch(getApiDomain() + '/wp-json/customers/v1/reset-password', {
       body: JSON.stringify({ email: email }),
       method: 'post',
       headers: {

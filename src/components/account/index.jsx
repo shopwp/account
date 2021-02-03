@@ -2,6 +2,7 @@ import Sidebar from './sidebar';
 import Body from './body';
 import AccountModal from './modal';
 import Notice from '../_common/notice';
+import { getApiDomain } from '../_common/api';
 import { css } from '@emotion/react/macro';
 import { useEffect, useContext } from 'react';
 import { AccountContext } from './_state/context';
@@ -19,7 +20,7 @@ function Account({ children }) {
   `;
 
   useEffect(() => {
-    const newUrl = 'https://wpshopify-web.loc/wp-json/customers/v1/get';
+    const newUrl = getApiDomain() + '/wp-json/customers/v1/get';
     const customerAuth = JSON.parse(localStorage.getItem('wpshopify-account-auth-token'));
 
     async function getCustomer(url) {
@@ -37,18 +38,13 @@ function Account({ children }) {
 
       const customer = await result.json();
 
-      console.log('customer', customer);
-      console.log('error', error);
-
       if (customer.code && customer.code === 'internal_server_error') {
-        console.log('customer err', customer.message);
         localStorage.removeItem('wpshopify-account-auth-token');
         window.location.href = '/login?logout=api_error';
         return;
       }
 
       if (customer.success === false) {
-        console.log('no success', customer);
         accountDispatch({ type: 'SET_IS_AUTHED', payload: false });
       }
 

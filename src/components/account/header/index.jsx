@@ -190,7 +190,6 @@ function AccountHeader() {
 
   function onClick(e) {
     e.preventDefault();
-    console.log('on click');
   }
 
   return (
