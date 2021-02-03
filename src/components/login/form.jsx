@@ -4,7 +4,7 @@ import Button from '../_common/button';
 import Notice from '../_common/notice';
 import { getApiDomain, loginUserToWordPress } from '../_common/api';
 import { Link } from 'react-router-dom';
-import to from 'await-to-js';
+// import to from 'await-to-js';
 
 function LoginForm() {
   const [username, setUsername] = useState(false);
@@ -54,13 +54,13 @@ function LoginForm() {
     if (payload.success) {
       localStorage.setItem('wpshopify-account-auth-token', JSON.stringify(customerInfo));
 
-      const [loginError, loginResp] = await to(loginUserToWordPress(creds));
+      // const [loginError, loginResp] = await to(loginUserToWordPress(creds));
 
-      if (loginError) {
-        console.log('loginError', loginError);
-        console.log('loginResp', loginResp);
-        return;
-      }
+      // if (loginError) {
+      //   console.log('loginError', loginError);
+      //   console.log('loginResp', loginResp);
+      //   return;
+      // }
 
       window.location.href = '/';
     } else {
