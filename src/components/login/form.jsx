@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { css } from '@emotion/react/macro';
 import Button from '../_common/button';
 import Notice from '../_common/notice';
-import { getApiDomain, loginUserToWordPress } from '../_common/api';
+import { getApiDomain } from '../_common/api';
 import { Link } from 'react-router-dom';
 // import to from 'await-to-js';
 
