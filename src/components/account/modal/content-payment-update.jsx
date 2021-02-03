@@ -162,7 +162,7 @@ function ModalContentPaymentUpdate({ accountState, accountDispatch }) {
 
     const [monthExp, yearExp] = formatExpiry(expiry);
 
-    const [error, resp] = await to(
+    const [error] = await to(
       updatePaymentMethod({
         subscription: accountState.subscription,
         monthExp: monthExp,

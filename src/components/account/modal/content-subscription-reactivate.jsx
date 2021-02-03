@@ -29,7 +29,12 @@ function ModalContentSubscriptionReactivate({ accountState, accountDispatch }) {
     const [error, resp] = await to(
       reactivateSubscription({ subscription: accountState.subscription })
     );
+
     setIsBusy(false);
+
+    if (error) {
+      console.log('error', error);
+    }
 
     accountDispatch({ type: 'TOGGLE_MODAL', payload: false });
 

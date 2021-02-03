@@ -339,7 +339,7 @@ function LicenseSite({ license, site, sites, setSites, setSiteCount }) {
   async function deactivateLicenseKey() {
     setIsBusy(true);
 
-    const [error, response] = await to(
+    const [, response] = await to(
       deactivateLicense({
         key: license.key,
         url: siteUrl,

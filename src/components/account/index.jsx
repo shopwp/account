@@ -24,7 +24,7 @@ function Account({ children }) {
     const customerAuth = JSON.parse(localStorage.getItem('wpshopify-account-auth-token'));
 
     async function getCustomer(url) {
-      const [error, result] = await to(
+      const [, result] = await to(
         fetch(url, {
           headers: {
             Accept: 'application/json',
