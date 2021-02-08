@@ -34,7 +34,7 @@ function NavLinksSecondary() {
   return (
     <div css={NavLinksSecondaryCSS}>
       <a
-        href='https://join.slack.com/t/wpshopify/shared_invite/zt-kjc3ptom-WEOiTGaqgdhrFF1IXbUsKA'
+        href='https://join.slack.com/t/wpshopify/shared_invite/zt-m45ab778-Il_xwPwVW~wOeMaFi4l7sg'
         target='_blank'
         rel='noreferrer'>
         Open Slack channel <IconExternal />
