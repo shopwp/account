@@ -1,0 +1,11 @@
+[[redirects]]
+  from = "/"
+  to = "https://wpshop.io/account"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/login"
+  to = "https://wpshop.io/login"
+  status = 200
+  force = true
